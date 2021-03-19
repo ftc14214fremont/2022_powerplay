@@ -1,17 +1,15 @@
+/*
+ * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * This code is very epic
+ */
+
 package org.firstinspires.ftc.teamcode.NonRunnable.Functions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setVelocity;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.FLAP_CLOSED_POSITION;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.FLAP_OPEN_POSITION;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.GUIDE_CLOSED_POSITION;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.GUIDE_OPEN_POSITION;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.flap;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.flyWheel;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.guide;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.spinner;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.tubeIntake;
+import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.*;
+import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.*;
 
 public final class IntakeFunctions
 {

@@ -1,25 +1,19 @@
+/*
+ * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * This code is very epic
+ */
+
 package org.firstinspires.ftc.teamcode.NonRunnable.Functions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.NonRunnable.Logic.AngleCorrections;
 
 import java.util.Arrays;
 
-import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.resetDriveEncoders;
-import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setDriveDirection;
-import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setDriveMotorsVelocity;
-import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.stopDrivingRobot;
-import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.ImuFunctions.correctToHeading;
-import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.ImuFunctions.getAngle;
-import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.ImuFunctions.resetAngle;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.COUNTS_PER_INCH;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.FINAL_SLOW;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.FINAL_SLOW_VELOCITY;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.INITIAL_SLOW;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.INITIAL_SLOW_VELOCITY;
+import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.*;
+import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.ImuFunctions.*;
+import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.*;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.BL;
 
 public class DrivePath

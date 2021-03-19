@@ -1,7 +1,11 @@
+/*
+ * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * This code is very epic
+ */
+
 package org.firstinspires.ftc.teamcode.NonRunnable.Functions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -38,9 +42,7 @@ public final class ImuFunctions
     
     public static void resetAngle()
     {
-        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC,
-                                               AxesOrder.ZYX,
-                                               AngleUnit.DEGREES);
+        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         globalAngle = 0;
     }
     
@@ -65,9 +67,7 @@ public final class ImuFunctions
     //Changes angle from 0 to ±180 to 0 to ±360
     public static double getAngle()
     {
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC,
-                                                       AxesOrder.ZYX,
-                                                       AngleUnit.DEGREES);
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
         

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * This code is very epic
+ */
+
 package org.firstinspires.ftc.teamcode.Auto.RandomTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -21,11 +26,10 @@ public class RingDetectionTest extends LinearOpMode
         
         waitForStart();
         
-        telemetry.addData("rings found:", position);
-        telemetry.update();
         while (opModeIsActive())
         {
-        
+            telemetry.addData("rings found:", position);
+            telemetry.update();
         }
     }
 }

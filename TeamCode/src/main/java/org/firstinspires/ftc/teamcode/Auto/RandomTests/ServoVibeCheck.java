@@ -1,12 +1,14 @@
+/*
+ * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * This code is very epic
+ */
+
 package org.firstinspires.ftc.teamcode.Auto.RandomTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import static org.firstinspires.ftc.robotcontroller.external.samples.ConceptScanServo.CYCLE_MS;
-import static org.firstinspires.ftc.robotcontroller.external.samples.ConceptScanServo.INCREMENT;
-import static org.firstinspires.ftc.robotcontroller.external.samples.ConceptScanServo.MAX_POS;
-import static org.firstinspires.ftc.robotcontroller.external.samples.ConceptScanServo.MIN_POS;
+import static org.firstinspires.ftc.robotcontroller.external.samples.ConceptScanServo.*;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.flap;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.initHardware;
 

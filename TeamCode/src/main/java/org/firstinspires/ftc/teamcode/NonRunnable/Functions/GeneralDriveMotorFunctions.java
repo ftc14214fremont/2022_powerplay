@@ -1,21 +1,21 @@
+/*
+ * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * This code is very epic
+ */
+
 package org.firstinspires.ftc.teamcode.NonRunnable.Functions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
 import org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants;
 
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.MAX_COUNTS_PER_SECOND;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.PAUSE_BETWEEN_MOVEMENTS;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.BL;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.BR;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.FL;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.FR;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.driveMotorsArray;
+import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.*;
 
 public final class GeneralDriveMotorFunctions
 {
