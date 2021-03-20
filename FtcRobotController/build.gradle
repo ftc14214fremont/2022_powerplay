@@ -1,3 +1,8 @@
+/*
+ * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * This code is very epic
+ */
+
 import java.text.SimpleDateFormat
 
 //
@@ -16,8 +21,8 @@ android {
     compileSdkVersion 29
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * This code is very epic
+ */
+
 package org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -6,7 +11,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.teamcode.NonRunnable.Logic.RingLogic.RingDeterminationPipeline;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -21,7 +25,6 @@ import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setDriveDirection;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode;
 
-//Hello
 public final class Hardware
 {
     public static DcMotorEx FL;
@@ -106,25 +109,15 @@ public final class Hardware
     
     public static void activateOpenCvCamera(LinearOpMode opMode)
     {
-        int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier(
-                "cameraMonitorViewId",
-                "id",
-                opMode.hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance()
-                                      .createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK,
-                                                            cameraMonitorViewId);
+        int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId",
+                                                                                             "id",
+                                                                                             opMode.hardwareMap.appContext
+                                                                                                     .getPackageName());
+        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK,
+                                                                          cameraMonitorViewId);
         pipeline = new RingDeterminationPipeline();
         phoneCam.setPipeline(pipeline);
         phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
-        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                phoneCam.startStreaming(320,
-                                        240,
-                                        OpenCvCameraRotation.SIDEWAYS_LEFT);
-            }
-        });
+        phoneCam.openCameraDeviceAsync(() -> phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT));
     }
 }

@@ -1,16 +1,14 @@
+/*
+ * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * This code is very epic
+ */
+
 package org.firstinspires.ftc.teamcode.NonRunnable.Logic;
 
 import java.util.Arrays;
 
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.DrivePath.getCurrentVelocity;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.BACKWARD_OFFSET;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.FORWARD_OFFSET;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.KD_CORRECTION;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.KI_CORRECTION;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.KP_CORRECTION;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.STRAFE_LEFT_OFFSET;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.STRAFE_RIGHT_OFFSET;
+import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.*;
 
 public final class AngleCorrections
 {

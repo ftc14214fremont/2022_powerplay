@@ -1,26 +1,34 @@
-package org.firstinspires.ftc.teamcode.TeleOp.Functions;
+/*
+ * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * This code is very epic
+ */
+
+package org.firstinspires.ftc.teamcode.TeleOp.Mechanisms;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.teamcode.NonRunnable.Logic.Button;
+import org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants;
 
 import java.util.Arrays;
 
+import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setDriveDirection;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setDriveMotorsVelocity;
 
-public final class Drive
+public final class Drivetrain
 {
+    public static Button toggleSlowMode = new Button();
+    public static Button leftPowerShot  = new Button();
+    public static Button rightPowerShot = new Button();
+    
+    public static double[] teleopVelocityArray = new double[4];
+    
     public static double forwardComponent;
     public static double strafeComponent;
     public static double rotationComponent;
     
-    public static double[] teleopVelocityArray = new double[4];
-    
     public static boolean slowMode = false;
     
-    public static Button toggleSlowMode = new Button();
-    
-    private Drive()
+    private Drivetrain()
     {
     }
     
@@ -28,7 +36,7 @@ public final class Drive
     {
         forwardComponent = -opMode.gamepad1.left_stick_y;
         strafeComponent = opMode.gamepad1.left_stick_x;
-        rotationComponent = 0.75 * opMode.gamepad1.right_stick_x; //0.5
+        rotationComponent = 0.75 * opMode.gamepad1.right_stick_x;
         
         teleopVelocityArray[0] = forwardComponent + strafeComponent + rotationComponent;
         teleopVelocityArray[1] = forwardComponent - strafeComponent - rotationComponent;
@@ -65,12 +73,31 @@ public final class Drive
             {
                 teleopVelocityArray[i] /= maxSpeed;
             }
-            
+    
             if (slowMode)
             {
                 teleopVelocityArray[i] /= Math.abs(teleopVelocityArray[i]);
                 teleopVelocityArray[i] *= 0.25; //0.4
             }
         }
+    }
+    
+    public static void powerShot(LinearOpMode opMode)
+    {
+        if (leftPowerShot.isPressed(opMode.gamepad1.dpad_left))
+        {
+            setDriveDirection(Constants.DriveMode.ROTATE_CCW);
+            setDriveMotorsVelocity(0.4);
+            opMode.sleep(133);
+            setDriveMotorsVelocity(0);
+        }
+        else if (rightPowerShot.isPressed(opMode.gamepad1.dpad_right))
+        {
+            setDriveDirection(Constants.DriveMode.ROTATE_CCW);
+            setDriveMotorsVelocity(-0.4);
+            opMode.sleep(133);
+            setDriveMotorsVelocity(0);
+        }
+        setDriveDirection(Constants.DriveMode.FORWARD);
     }
 }

@@ -1,9 +1,13 @@
+/*
+ * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * This code is very epic
+ */
+
 package org.firstinspires.ftc.teamcode.NonRunnable.Logic;
 
 public class Button
 {
-    private boolean wasPressed        = false;
-    private boolean finishedExecuting = true;
+    private boolean wasPressed = false;
     
     public Button()
     {
@@ -14,15 +18,6 @@ public class Button
     {
         boolean tempWasPressed = wasPressed;
         wasPressed = button;
-        if (button && !tempWasPressed)
-        {
-            finishedExecuting = false;
-        }
         return button && !tempWasPressed;
-    }
-    
-    public void isFinished()
-    {
-        finishedExecuting = true;
     }
 }
