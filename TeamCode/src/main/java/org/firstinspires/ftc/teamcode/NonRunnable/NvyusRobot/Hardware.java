@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -13,7 +13,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.NonRunnable.Logic.RingLogic.RingDeterminationPipeline;
 import org.jetbrains.annotations.NotNull;
-import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
@@ -25,6 +24,7 @@ import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setDriveDirection;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode;
+import static org.openftc.easyopencv.OpenCvCamera.ViewportRenderingPolicy;
 
 public final class Hardware
 {
@@ -122,14 +122,7 @@ public final class Hardware
                                                                           cameraMonitorViewId);
         pipeline = new RingDeterminationPipeline();
         phoneCam.setPipeline(pipeline);
-        phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
-        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
-            }
-        });
+        phoneCam.setViewportRenderingPolicy(ViewportRenderingPolicy.OPTIMIZE_VIEW);
+        phoneCam.openCameraDeviceAsync(() -> phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT));
     }
 }
