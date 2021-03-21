@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -54,6 +54,7 @@ task extractJavadoc {
     doLast {
         def componentIds = configurations.doc.incoming.resolutionResult.allDependencies.collect { it.selected.id }
 
+        //noinspection GrDeprecatedAPIUsage,GroovyAssignabilityCheck
         def result = dependencies.createArtifactResolutionQuery()
                 .forComponents(componentIds)
                 .withArtifacts(JvmLibrary, SourcesArtifact, JavadocArtifact)

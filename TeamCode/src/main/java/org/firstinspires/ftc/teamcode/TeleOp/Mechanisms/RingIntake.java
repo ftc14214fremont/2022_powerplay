@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -20,6 +20,12 @@ public final class RingIntake
     
     public static void controlIntake(@NotNull LinearOpMode opMode)
     {
+        controlTubes(opMode);
+        controlSpinner(opMode);
+    }
+    
+    private static void controlTubes(@NotNull LinearOpMode opMode)
+    {
         if (opMode.gamepad2.left_bumper)
         {
             if (opMode.gamepad2.dpad_down)
@@ -35,7 +41,10 @@ public final class RingIntake
         {
             tubeIntake.setPower(0);
         }
-        
+    }
+    
+    private static void controlSpinner(@NotNull LinearOpMode opMode)
+    {
         if (opMode.gamepad2.dpad_up)
         {
             setVelocity(spinner, 0.3);

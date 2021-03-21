@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -8,6 +8,8 @@ package org.firstinspires.ftc.teamcode.Auto.RandomTests;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.TelemetryFunctions.showReady;
+import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.TelemetryFunctions.showRunning;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Logic.RingLogic.RingDeterminationPipeline.position;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.activateOpenCvCamera;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.initializeRobot;
@@ -20,12 +22,12 @@ public class RingDetectionTest extends LinearOpMode
     {
         activateOpenCvCamera(this);
         initializeRobot(this);
-        
-        telemetry.addData("Mode", "Ready");
-        telemetry.update();
-        
+        showReady(this);
+    
         waitForStart();
-        
+    
+        showRunning(this);
+    
         while (opModeIsActive())
         {
             telemetry.addData("rings found:", position);

@@ -34,7 +34,7 @@ public final class Hardware
     public static DcMotorEx BR;
     
     public static DcMotorEx spinner;
-    public static DcMotorEx flyWheel;
+    public static DcMotorEx flywheel;
     
     public static DcMotorEx[] driveMotorsArray = new DcMotorEx[]{FL, FR, BL, BR};
     
@@ -71,16 +71,16 @@ public final class Hardware
         BR = opMode.hardwareMap.get(DcMotorEx.class, "BR");
         
         driveMotorsArray = new DcMotorEx[]{FL, FR, BL, BR};
-        
+    
         spinner = opMode.hardwareMap.get(DcMotorEx.class, "spinner");
-        flyWheel = opMode.hardwareMap.get(DcMotorEx.class, "speedy");
+        flywheel = opMode.hardwareMap.get(DcMotorEx.class, "speedy");
         
         tubeIntake = opMode.hardwareMap.get(DcMotor.class, "tubes");
         wobbleArm = opMode.hardwareMap.get(DcMotorEx.class, "arm");
         
         tubeIntake.setDirection(FORWARD);
         spinner.setDirection(REVERSE);
-        flyWheel.setDirection(FORWARD);
+        flywheel.setDirection(FORWARD);
         wobbleArm.setDirection(FORWARD);
         setDriveDirection(DriveMode.FORWARD);
         
@@ -93,7 +93,7 @@ public final class Hardware
         tubeIntake.setZeroPowerBehavior(FLOAT);
         
         //changed flywheel PID from default for better shooting
-        flyWheel.setVelocityPIDFCoefficients(50, 0, 0, 15);
+        flywheel.setVelocityPIDFCoefficients(50, 0, 0, 15);
         
         guide = opMode.hardwareMap.get(Servo.class, "guide");
         wobble = opMode.hardwareMap.get(Servo.class, "wobble");

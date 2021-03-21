@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -11,10 +11,10 @@ import org.firstinspires.ftc.teamcode.NonRunnable.Functions.DrivePath;
 import org.firstinspires.ftc.teamcode.NonRunnable.Logic.RingLogic.RingDeterminationPipeline;
 import org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants;
 
-import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.BlockerFunctions.moveBlockersDown;
+import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.BlockerFunctions.moveBlockersUp;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setVelocity;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.ImuFunctions.correctToHeading;
-import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.IntakeFunctions.shoot;
+import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.ShooterFunctions.shoot;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.TelemetryFunctions.showReady;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.TelemetryFunctions.showRunning;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.WobbleArmFunctions.gripWobbleGoal;
@@ -43,23 +43,23 @@ public class FinalAuto extends LinearOpMode
         DrivePath strafeRightAtBeginning = new DrivePath(0.5, 19, Constants.DriveMode.STRAFE_RIGHT, this);
         DrivePath advanceToShootingLine  = new DrivePath(0.5, 47.5, Constants.DriveMode.FORWARD, this);
         DrivePath strafeToAim            = new DrivePath(0.5, 22, Constants.DriveMode.STRAFE_LEFT, this);
-        
+    
         phoneCam.closeCameraDevice();
-        moveBlockersDown(this);
+        moveBlockersUp(this);
         gripWobbleGoal(this);
         
         if (position == RingDeterminationPipeline.RingPosition.NONE)
         {
             DrivePath strafeToAimNone = new DrivePath(0.4, 3, Constants.DriveMode.STRAFE_LEFT, this);
-            
-            setVelocity(flyWheel, HIGH_GOAL_SPEED);
+    
+            setVelocity(flywheel, HIGH_GOAL_SPEED);
             advanceToShootingLine.go();
             strafeToAimNone.go();
         }
         else
         {
             strafeRightAtBeginning.go();
-            setVelocity(flyWheel, HIGH_GOAL_SPEED);
+            setVelocity(flywheel, HIGH_GOAL_SPEED);
             advanceToShootingLine.go();
             strafeToAim.go();
         }

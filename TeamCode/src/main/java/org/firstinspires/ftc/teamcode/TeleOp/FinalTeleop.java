@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -11,8 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.TelemetryFunctions.*;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.initializeRobot;
 import static org.firstinspires.ftc.teamcode.TeleOp.Mechanisms.BlockerArms.controlBlockerArms;
-import static org.firstinspires.ftc.teamcode.TeleOp.Mechanisms.Drivetrain.drive;
-import static org.firstinspires.ftc.teamcode.TeleOp.Mechanisms.Drivetrain.powerShot;
+import static org.firstinspires.ftc.teamcode.TeleOp.Mechanisms.Drivetrain.controlDrivetrain;
 import static org.firstinspires.ftc.teamcode.TeleOp.Mechanisms.RingIntake.controlIntake;
 import static org.firstinspires.ftc.teamcode.TeleOp.Mechanisms.Shooter.controlShooter;
 import static org.firstinspires.ftc.teamcode.TeleOp.Mechanisms.WobbleArm.controlWobbleArm;
@@ -26,19 +25,19 @@ public final class FinalTeleop extends LinearOpMode
     {
         initializeRobot(this);
         showReady(this);
-        
+    
         waitForStart();
-        
+    
+        showRunning(this);
+    
         while (opModeIsActive())
         {
             showTeleopTelemetry(this);
-            showRunning(this);
-            
-            drive(this);
+        
+            controlDrivetrain(this);
             controlIntake(this);
             controlShooter(this);
             controlWobbleArm(this);
-            powerShot(this);
             controlBlockerArms(this);
         }
     }

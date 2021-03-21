@@ -7,13 +7,14 @@ package org.firstinspires.ftc.teamcode.TeleOp.Mechanisms;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.NonRunnable.Logic.Button;
-import org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setDriveDirection;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setDriveMotorsVelocity;
+import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode.FORWARD;
+import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode.ROTATE_CCW;
 
 public final class Drivetrain
 {
@@ -38,8 +39,9 @@ public final class Drivetrain
         return slowMode;
     }
     
-    public static void drive(@NotNull LinearOpMode opMode)
+    public static void controlDrivetrain(@NotNull LinearOpMode opMode)
     {
+        setDriveDirection(FORWARD);
         forwardComponent = -opMode.gamepad1.left_stick_y;
         strafeComponent = opMode.gamepad1.left_stick_x;
         rotationComponent = 0.75 * opMode.gamepad1.right_stick_x;
@@ -57,13 +59,13 @@ public final class Drivetrain
         }
         
         sendVelocities(opMode);
+        
+        controlPowershot(opMode);
     }
     
     private static void normalizeVelocities()
     {
-        Arrays.sort(teleopVelocityArray);
-    
-        double maxSpeed = teleopVelocityArray[3];
+        double maxSpeed = Arrays.stream(teleopVelocityArray).max().getAsDouble();
     
         for (int i = 0; i < 4; i++)
         {
@@ -71,10 +73,11 @@ public final class Drivetrain
             {
                 teleopVelocityArray[i] /= maxSpeed;
             }
-    
+        
             if (slowMode)
             {
-                teleopVelocityArray[i] = 0.25 * Math.signum(teleopVelocityArray[i]);
+                teleopVelocityArray[i] /= Math.abs(teleopVelocityArray[i]);
+                teleopVelocityArray[i] *= 0.25;
             }
         }
     }
@@ -94,20 +97,23 @@ public final class Drivetrain
         }
     }
     
-    public static void powerShot(@NotNull LinearOpMode opMode)
+    private static void controlPowershot(@NotNull LinearOpMode opMode)
     {
-        setDriveDirection(Constants.DriveMode.ROTATE_CCW);
-        
         if (leftPowerShot.isPressed(opMode.gamepad1.dpad_left))
         {
+            setDriveDirection(ROTATE_CCW);
             setDriveMotorsVelocity(0.4);
+            opMode.sleep(133);
+            setDriveMotorsVelocity(0);
+            setDriveDirection(FORWARD);
         }
         else if (rightPowerShot.isPressed(opMode.gamepad1.dpad_right))
         {
+            setDriveDirection(ROTATE_CCW);
             setDriveMotorsVelocity(-0.4);
+            opMode.sleep(133);
+            setDriveMotorsVelocity(0);
+            setDriveDirection(FORWARD);
         }
-        opMode.sleep(133);
-        setDriveMotorsVelocity(0);
-        setDriveDirection(Constants.DriveMode.FORWARD);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -29,6 +29,9 @@ public final class Constants
     public static final double BLOCKER_OPEN_POSITION   = 0.45;
     public static final double BLOCKER_CLOSED_POSITION = 0;
     
+    //Servo times
+    public static final int FLAP_MOVEMENT_MS = 300;
+    
     //Start and end deceleration distances
     public static final double INITIAL_SLOW            = 6;
     public static final double FINAL_SLOW              = 16;
@@ -53,5 +56,10 @@ public final class Constants
     //restrict instantiation
     private Constants()
     {
+    }
+    
+    public enum ShooterState
+    {
+        SHOOTER_START, SHOOTER_OPEN_FLAP, SHOOTER_CLOSE_FLAP
     }
 }
