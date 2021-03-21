@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -8,6 +8,7 @@ package org.firstinspires.ftc.teamcode.NonRunnable.Functions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.NonRunnable.Logic.AngleCorrections;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
@@ -79,7 +80,7 @@ public class DrivePath
         return velocityArray;
     }
     
-    @org.jetbrains.annotations.NotNull
+    @NotNull
     private double[] getInitialDriveVelocities()
     {
         double[] velocityArray = new double[4];

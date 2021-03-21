@@ -57,5 +57,10 @@ public final class RingIntake
         {
             setVelocity(spinner, 0);
         }
+    
+        if (opMode.gamepad2.right_trigger > 0.5 && opMode.gamepad2.left_bumper)
+        {
+            setVelocity(spinner, 0.5);
+        }
     }
 }

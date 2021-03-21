@@ -15,7 +15,6 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.ShooterFuncti
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.*;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.ShooterState.*;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.flywheel;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.spinner;
 
 public final class Shooter
 {
@@ -43,21 +42,14 @@ public final class Shooter
         switch (shooterState)
         {
             case SHOOTER_START:
-                shooterStart(opMode);
+                doCaseShooterStart(opMode);
                 break;
             case SHOOTER_CLOSE_FLAP:
-                shooterCloseFlap(opMode);
+                doCaseShooterCloseFlap(opMode);
                 break;
             case SHOOTER_OPEN_FLAP:
-                shooterOpenFlap(opMode);
+                doCaseShooterOpenFlap(opMode);
                 break;
-            default:
-                shooterState = SHOOTER_START;
-        }
-        
-        if (opMode.gamepad2.right_trigger > 0.5 && opMode.gamepad2.left_bumper)
-        {
-            setVelocity(spinner, 0.5);
         }
     }
     
@@ -69,7 +61,7 @@ public final class Shooter
         }
     }
     
-    private static void shooterStart(@NotNull LinearOpMode opMode)
+    private static void doCaseShooterStart(@NotNull LinearOpMode opMode)
     {
         if (opMode.gamepad2.right_trigger > 0.5)
         {
@@ -86,7 +78,7 @@ public final class Shooter
         }
     }
     
-    private static void shooterCloseFlap(@NotNull LinearOpMode opMode)
+    private static void doCaseShooterCloseFlap(@NotNull LinearOpMode opMode)
     {
         if (shooterTime.milliseconds() >= FLAP_MOVEMENT_MS)
         {
@@ -97,7 +89,7 @@ public final class Shooter
         }
     }
     
-    private static void shooterOpenFlap(@NotNull LinearOpMode opMode)
+    private static void doCaseShooterOpenFlap(@NotNull LinearOpMode opMode)
     {
         if (shooterTime.milliseconds() >= FLAP_MOVEMENT_MS)
         {

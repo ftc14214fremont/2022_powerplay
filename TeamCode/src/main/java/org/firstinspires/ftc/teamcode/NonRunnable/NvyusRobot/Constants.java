@@ -5,6 +5,10 @@
 
 package org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot;
 
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
+
 public final class Constants
 {
     //shooter speeds
@@ -50,10 +54,26 @@ public final class Constants
     
     public enum DriveMode
     {
-        FORWARD, BACKWARD, STRAFE_LEFT, STRAFE_RIGHT, ROTATE_CW, ROTATE_CCW
+        STRAIGHT_FORWARD(new Direction[]{FORWARD, REVERSE, FORWARD, REVERSE}),
+        BACKWARD(new Direction[]{REVERSE, FORWARD, REVERSE, FORWARD}),
+        STRAFE_LEFT(new Direction[]{REVERSE, REVERSE, FORWARD, FORWARD}),
+        STRAFE_RIGHT(new Direction[]{FORWARD, FORWARD, REVERSE, REVERSE}),
+        @SuppressWarnings ("unused") ROTATE_CW(new Direction[]{FORWARD, FORWARD, FORWARD, FORWARD}),
+        ROTATE_CCW(new Direction[]{REVERSE, REVERSE, REVERSE, REVERSE});
+        
+        private final Direction[] directions;
+        
+        DriveMode(Direction[] directions)
+        {
+            this.directions = directions;
+        }
+        
+        public Direction[] getDirections()
+        {
+            return directions;
+        }
     }
     
-    //restrict instantiation
     private Constants()
     {
     }

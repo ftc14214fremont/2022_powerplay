@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setVelocity;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.*;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.wobble;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.wobbleArm;
+import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.wobbleGrip;
 
 public final class WobbleArmFunctions
 {
@@ -49,17 +49,17 @@ public final class WobbleArmFunctions
         setVelocity(wobbleArm, 0);
     }
     
-    public static void releaseWobbleGoal(@NotNull LinearOpMode opMode)
+    public static void releaseWobbleGoal(@NotNull LinearOpMode opMode, int sleepMs)
     {
-        wobble.setPosition(WOBBLE_OPEN_POSITION);
-        opMode.sleep(400);
+        wobbleGrip.setPosition(WOBBLE_OPEN_POSITION);
+        opMode.sleep(sleepMs);
         opMode.idle();
     }
     
-    public static void gripWobbleGoal(@NotNull LinearOpMode opMode)
+    public static void gripWobbleGoal(@NotNull LinearOpMode opMode, int sleepMs)
     {
-        wobble.setPosition(WOBBLE_CLOSED_POSITION);
-        opMode.sleep(0);
+        wobbleGrip.setPosition(WOBBLE_CLOSED_POSITION);
+        opMode.sleep(sleepMs);
         opMode.idle();
     }
 }

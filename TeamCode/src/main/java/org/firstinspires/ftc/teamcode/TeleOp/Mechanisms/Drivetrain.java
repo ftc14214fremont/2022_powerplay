@@ -13,8 +13,8 @@ import java.util.Arrays;
 
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setDriveDirection;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setDriveMotorsVelocity;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode.FORWARD;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode.ROTATE_CCW;
+import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode.STRAIGHT_FORWARD;
 
 public final class Drivetrain
 {
@@ -41,7 +41,7 @@ public final class Drivetrain
     
     public static void controlDrivetrain(@NotNull LinearOpMode opMode)
     {
-        setDriveDirection(FORWARD);
+        setDriveDirection(STRAIGHT_FORWARD);
         forwardComponent = -opMode.gamepad1.left_stick_y;
         strafeComponent = opMode.gamepad1.left_stick_x;
         rotationComponent = 0.75 * opMode.gamepad1.right_stick_x;
@@ -105,7 +105,7 @@ public final class Drivetrain
             setDriveMotorsVelocity(0.4);
             opMode.sleep(133);
             setDriveMotorsVelocity(0);
-            setDriveDirection(FORWARD);
+            setDriveDirection(STRAIGHT_FORWARD);
         }
         else if (rightPowerShot.isPressed(opMode.gamepad1.dpad_right))
         {
@@ -113,7 +113,7 @@ public final class Drivetrain
             setDriveMotorsVelocity(-0.4);
             opMode.sleep(133);
             setDriveMotorsVelocity(0);
-            setDriveDirection(FORWARD);
+            setDriveDirection(STRAIGHT_FORWARD);
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -8,15 +8,12 @@ package org.firstinspires.ftc.teamcode.NonRunnable.Functions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants;
+import org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode;
 import org.jetbrains.annotations.NotNull;
 
-import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
-import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.MAX_COUNTS_PER_SECOND;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.PAUSE_BETWEEN_MOVEMENTS;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.*;
+import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.driveMotors;
 
 public final class GeneralDriveMotorFunctions
 {
@@ -25,46 +22,17 @@ public final class GeneralDriveMotorFunctions
     }
     
     /*
-    - When looking at the front of the goBILDA drive shaft, clockwise is
-      FORWARD, counter-clockwise is REVERSE
-    - These directions only work assuming a bevel gear configuration on the drivetrain
-    */
+     * - When looking at the front of the goBILDA drive shaft, clockwise is
+     *   FORWARD, counter-clockwise is REVERSE
+     * - These directions only work assuming a bevel gear configuration on the drivetrain
+     */
     
-    public static void setDriveDirection(Constants.DriveMode driveMode)
+    public static void setDriveDirection(DriveMode driveMode)
     {
-        if (driveMode == Constants.DriveMode.STRAFE_LEFT)
+        for (int i = 0; i < 4; i++)
         {
-            setMotorDirections(REVERSE, REVERSE, FORWARD, FORWARD);
+            driveMotors[i].setDirection(driveMode.getDirections()[i]);
         }
-        else if (driveMode == Constants.DriveMode.STRAFE_RIGHT)
-        {
-            setMotorDirections(FORWARD, FORWARD, REVERSE, REVERSE);
-        }
-        else if (driveMode == Constants.DriveMode.FORWARD)
-        {
-            setMotorDirections(FORWARD, REVERSE, FORWARD, REVERSE);
-        }
-        else if (driveMode == Constants.DriveMode.BACKWARD)
-        {
-            setMotorDirections(REVERSE, FORWARD, REVERSE, FORWARD);
-        }
-        else if (driveMode == Constants.DriveMode.ROTATE_CW)
-        {
-            setMotorDirections(FORWARD, FORWARD, FORWARD, FORWARD);
-        }
-        else if (driveMode == Constants.DriveMode.ROTATE_CCW)
-        {
-            setMotorDirections(REVERSE, REVERSE, REVERSE, REVERSE);
-        }
-    }
-    
-    private static void setMotorDirections(DcMotorSimple.Direction FLDirection, DcMotorSimple.Direction FRDirection,
-                                           DcMotorSimple.Direction BLDirection, DcMotorSimple.Direction BRDirection)
-    {
-        FL.setDirection(FLDirection);
-        FR.setDirection(FRDirection);
-        BL.setDirection(BLDirection);
-        BR.setDirection(BRDirection);
     }
     
     public static void stopDrivingRobot(@NotNull LinearOpMode opMode)
@@ -75,7 +43,7 @@ public final class GeneralDriveMotorFunctions
     
     public static void setDriveMotorsVelocity(double velocity)
     {
-        for (DcMotorEx dcMotorEx : driveMotorsArray)
+        for (DcMotorEx dcMotorEx : driveMotors)
         {
             setVelocity(dcMotorEx, velocity);
         }
@@ -85,7 +53,7 @@ public final class GeneralDriveMotorFunctions
     {
         for (int i = 0; i < velocityArray.length; i++)
         {
-            setVelocity(driveMotorsArray[i], velocityArray[i]);
+            setVelocity(driveMotors[i], velocityArray[i]);
         }
     }
     
@@ -96,7 +64,7 @@ public final class GeneralDriveMotorFunctions
     
     public static void resetDriveEncoders()
     {
-        for (DcMotorEx dcMotorEx : driveMotorsArray)
+        for (DcMotorEx dcMotorEx : driveMotors)
         {
             dcMotorEx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }

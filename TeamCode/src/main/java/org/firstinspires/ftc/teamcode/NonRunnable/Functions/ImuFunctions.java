@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -19,15 +19,13 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.imu
 public final class ImuFunctions
 {
     /*
-    These methods work by finding the delta between the last angle(which starts at zero) and current
-    measured angle and adding it to the global angle which starts at zero. This makes it possible to
-    reset the angle because we're not returning the actual IMU reading, which is impossible to
-    reset,
-    but the delta. The resetAngle() method works by setting the globalAngle to 0 and the
-    lastAngle equal
-    to the current angle, making the delta angle 0. Then, the next time we call getAngle(), the
-    deltaAngle will be added to the global angle, and since both are zero, it will return 0, which
-    effectively resets the angle.
+     * These methods work by finding the delta between the last angle(which starts at zero) and current
+     * measured angle and adding it to the global angle which starts at zero. This makes it possible to
+     * reset the angle because we're not returning the actual IMU reading, which is impossible to
+     * reset, but the delta. The resetAngle() method works by setting the globalAngle to 0 and the
+     * lastAngle equal to the current angle, making the delta angle 0. Then, the next time we call getAngle(), the
+     * deltaAngle will be added to the global angle, and since both are zero, it will return 0, which
+     * effectively resets the angle.
      */
     
     private static Orientation lastAngles = new Orientation();
@@ -35,7 +33,6 @@ public final class ImuFunctions
     private static double      angleError;
     private static int         direction;
     
-    //restrict instantiation
     private ImuFunctions()
     {
     }
@@ -79,7 +76,6 @@ public final class ImuFunctions
         {
             deltaAngle -= 360;
         }
-        
         globalAngle += deltaAngle;
         lastAngles = angles;
         
@@ -90,6 +86,7 @@ public final class ImuFunctions
     {
         setDriveDirection(Constants.DriveMode.ROTATE_CCW);
         updateAngleError(heading);
+    
         while (Math.abs(angleError) > 1 && opMode.opModeIsActive())
         {
             setDriveMotorsVelocity(0.35 * direction);

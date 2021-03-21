@@ -1,9 +1,9 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
-package org.firstinspires.ftc.teamcode.NonRunnable.Logic.RingLogic;
+package org.firstinspires.ftc.teamcode.Auto.RingCases;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.NonRunnable.Functions.DrivePath;
@@ -13,13 +13,13 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.ImuFunctions.
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.WobbleArmFunctions.*;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode;
 
-public final class OneRingBehavior
+public final class OneRingCase
 {
-    private OneRingBehavior()
+    private OneRingCase()
     {
     }
     
-    public static void doOneRingBehavior(LinearOpMode opMode)
+    public static void doOneRingCase(LinearOpMode opMode)
     {
         DrivePath strafeToWobbleZone     = new DrivePath(0.4, 30, DriveMode.STRAFE_LEFT, opMode);
         DrivePath strafeBackToLaunchLine = new DrivePath(0.4, 6, DriveMode.STRAFE_RIGHT, opMode);
@@ -29,7 +29,7 @@ public final class OneRingBehavior
         correctToHeading(-90, opMode);
         strafeToWobbleZone.go();
         moveWobbleArmDown(opMode);
-        releaseWobbleGoal(opMode);
+        releaseWobbleGoal(opMode, 400);
         releaseByMovingBack.go();
         moveWobbleArmUp(opMode);
         strafeBackToLaunchLine.go();

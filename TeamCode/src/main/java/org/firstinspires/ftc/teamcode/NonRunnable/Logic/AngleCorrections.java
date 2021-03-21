@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -48,7 +48,7 @@ public final class AngleCorrections
                 correctionArray[2] = getVelocityOffset() - getPidCorrection();
                 correctionArray[3] = getVelocityOffset() - getPidCorrection();
             }
-            else if (this.driveMode == DriveMode.FORWARD)
+            else if (this.driveMode == DriveMode.STRAIGHT_FORWARD)
             {
                 correctionArray[0] = getVelocityOffset() + getPidCorrection();
                 correctionArray[1] = getVelocityOffset() - getPidCorrection();
@@ -80,7 +80,7 @@ public final class AngleCorrections
         {
             return getCurrentVelocity() * STRAFE_RIGHT_OFFSET;
         }
-        else if (this.driveMode == DriveMode.FORWARD)
+        else if (this.driveMode == DriveMode.STRAIGHT_FORWARD)
         {
             return getCurrentVelocity() * FORWARD_OFFSET;
         }

@@ -19,7 +19,6 @@ import static org.firstinspires.ftc.teamcode.TeleOp.Mechanisms.WobbleArm.control
 @TeleOp
 public final class FinalTeleop extends LinearOpMode
 {
-    
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -33,7 +32,7 @@ public final class FinalTeleop extends LinearOpMode
         while (opModeIsActive())
         {
             showTeleopTelemetry(this);
-        
+    
             controlDrivetrain(this);
             controlIntake(this);
             controlShooter(this);

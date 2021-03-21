@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.TelemetryFunctions.showReady;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.TelemetryFunctions.showRunning;
-import static org.firstinspires.ftc.teamcode.NonRunnable.Logic.RingLogic.RingDeterminationPipeline.position;
+import static org.firstinspires.ftc.teamcode.NonRunnable.Logic.RingDeterminationPipeline.ringStack;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.activateOpenCvCamera;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.initializeRobot;
 
@@ -30,7 +30,7 @@ public class RingDetectionTest extends LinearOpMode
     
         while (opModeIsActive())
         {
-            telemetry.addData("rings found:", position);
+            telemetry.addData("rings found:", ringStack);
             telemetry.update();
         }
     }
