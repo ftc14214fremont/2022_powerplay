@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -9,8 +9,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import static org.firstinspires.ftc.robotcontroller.external.samples.ConceptScanServo.*;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.flap;
-import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.initHardware;
+import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.TelemetryFunctions.showReady;
+import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.initializeRobot;
+import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.rightBlocker;
 
 @Autonomous
 public class ServoVibeCheck extends LinearOpMode
@@ -19,11 +20,12 @@ public class ServoVibeCheck extends LinearOpMode
     boolean rampUp   = true;
     
     @Override
-    public void runOpMode()
+    public void runOpMode() throws InterruptedException
     {
-        initHardware(ServoVibeCheck.this);
-        telemetry.addData(">", "Press Start to scan Servo.");
-        telemetry.update();
+        initializeRobot(this);
+        
+        showReady(this);
+        
         waitForStart();
         
         while (opModeIsActive())
@@ -51,11 +53,9 @@ public class ServoVibeCheck extends LinearOpMode
             telemetry.addData(">", "Press Stop to end test.");
             telemetry.update();
             
-            flap.setPosition(position);
+            rightBlocker.setPosition(position);
             sleep(CYCLE_MS);
             idle();
         }
-        telemetry.addData(">", "Done");
-        telemetry.update();
     }
 }

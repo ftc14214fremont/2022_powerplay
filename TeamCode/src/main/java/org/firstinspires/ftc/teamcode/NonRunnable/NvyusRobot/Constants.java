@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -7,9 +7,10 @@ package org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot;
 
 public final class Constants
 {
-    public static final double highGoalSpeed        = 0.8;
-    public static final double powerShotSpeed       = 0.65;
-    public static final double WOBBLE_OPEN_POSITION = 0.5;
+    //shooter speeds
+    public static final double HIGH_GOAL_SPEED  = 0.8;
+    public static final double POWER_SHOT_SPEED = 0.65;
+    public static final double IDLE_SPEED       = -0.1;
     
     //Encoder counts
     public static final double MAX_COUNTS_PER_SECOND     = 2800;
@@ -21,31 +22,36 @@ public final class Constants
     //Open means not in contact with anything, closed means touching
     public static final double FLAP_OPEN_POSITION      = 0.97;
     public static final double FLAP_CLOSED_POSITION    = 0.7;
+    public static final double WOBBLE_OPEN_POSITION    = 0.5;
     public static final double WOBBLE_CLOSED_POSITION  = 1;
     public static final double GUIDE_OPEN_POSITION     = 0.99;
     public static final double GUIDE_CLOSED_POSITION   = 0.87;
+    public static final double BLOCKER_OPEN_POSITION   = 0.45;
+    public static final double BLOCKER_CLOSED_POSITION = 0;
+    
     //Start and end deceleration distances
     public static final double INITIAL_SLOW            = 6;
     public static final double FINAL_SLOW              = 16;
     public static final double INITIAL_SLOW_VELOCITY   = 0.46;
     public static final double FINAL_SLOW_VELOCITY     = 0.26;
     public static final long   PAUSE_BETWEEN_MOVEMENTS = 200;
-    //angle correction
-    public static final double KP_CORRECTION           = 0.01;
-    public static final double KI_CORRECTION           = 0;
-    public static final double KD_CORRECTION           = 0;
-    public static final double FORWARD_OFFSET          = 0;
-    public static final double BACKWARD_OFFSET         = 0;
-    public static final double STRAFE_LEFT_OFFSET      = 0;
-    public static final double STRAFE_RIGHT_OFFSET     = 0;
     
-    //restrict instantiation
-    private Constants()
-    {
-    }
+    //angle correction
+    public static final double KP_CORRECTION       = 0.01;
+    public static final double KI_CORRECTION       = 0;
+    public static final double KD_CORRECTION       = 0;
+    public static final double FORWARD_OFFSET      = 0;
+    public static final double BACKWARD_OFFSET     = 0;
+    public static final double STRAFE_LEFT_OFFSET  = 0;
+    public static final double STRAFE_RIGHT_OFFSET = 0;
     
     public enum DriveMode
     {
         FORWARD, BACKWARD, STRAFE_LEFT, STRAFE_RIGHT, ROTATE_CW, ROTATE_CCW
+    }
+    
+    //restrict instantiation
+    private Constants()
+    {
     }
 }

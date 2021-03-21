@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -7,6 +7,7 @@ package org.firstinspires.ftc.teamcode.NonRunnable.Functions;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import org.jetbrains.annotations.NotNull;
 
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setVelocity;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.*;
@@ -48,14 +49,14 @@ public final class WobbleArmFunctions
         setVelocity(wobbleArm, 0);
     }
     
-    public static void releaseWobbleGoal(LinearOpMode opMode)
+    public static void releaseWobbleGoal(@NotNull LinearOpMode opMode)
     {
         wobble.setPosition(WOBBLE_OPEN_POSITION);
         opMode.sleep(400);
         opMode.idle();
     }
     
-    public static void gripWobbleGoal(LinearOpMode opMode)
+    public static void gripWobbleGoal(@NotNull LinearOpMode opMode)
     {
         wobble.setPosition(WOBBLE_CLOSED_POSITION);
         opMode.sleep(0);

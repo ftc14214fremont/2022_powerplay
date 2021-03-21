@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -56,10 +56,12 @@ android {
         noCompress "tflite"
     }
 
+    //noinspection GroovyDocCheck
     defaultConfig {
         signingConfig signingConfigs.debug
         applicationId 'com.qualcomm.ftcrobotcontroller'
         minSdkVersion 24 //should be at least 23
+        //noinspection OldTargetApi
         targetSdkVersion 28
 
         /**
@@ -114,8 +116,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     sourceSets.main {

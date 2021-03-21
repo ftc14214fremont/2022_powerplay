@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -7,6 +7,7 @@ package org.firstinspires.ftc.teamcode.TeleOp.Mechanisms;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.NonRunnable.Logic.Button;
+import org.jetbrains.annotations.NotNull;
 
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setVelocity;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.*;
@@ -14,19 +15,27 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.*;
 
 public final class Shooter
 {
-    public static Button  powerShotModeToggle = new Button();
-    public static double  currentTime;
-    public static int     toggleRingFlowCount = 0;
-    public static boolean powerShotMode       = false;
-    public static boolean firstPartDone;
-    public static boolean secondPartDone;
-    public static boolean thirdPartDone;
+    private static final Button powerShotModeToggle = new Button();
+    
+    private static double currentTime;
+    
+    private static int toggleRingFlowCount = 0;
+    
+    private static boolean powerShotMode = false;
+    private static boolean firstPartDone;
+    private static boolean secondPartDone;
+    private static boolean thirdPartDone;
     
     private Shooter()
     {
     }
     
-    public static void controlShooter(LinearOpMode opMode)
+    public static boolean getPowerShotMode()
+    {
+        return powerShotMode;
+    }
+    
+    public static void controlShooter(@NotNull LinearOpMode opMode)
     {
         if (powerShotModeToggle.isPressed(opMode.gamepad2.x))
         {
@@ -37,11 +46,11 @@ public final class Shooter
         {
             if (powerShotMode)
             {
-                setVelocity(flyWheel, powerShotSpeed);
+                setVelocity(flyWheel, POWER_SHOT_SPEED);
             }
             else
             {
-                setVelocity(flyWheel, highGoalSpeed);
+                setVelocity(flyWheel, HIGH_GOAL_SPEED);
             }
             ++toggleRingFlowCount;
             
@@ -82,7 +91,7 @@ public final class Shooter
         }
         else
         {
-            setVelocity(flyWheel, 0);
+            setVelocity(flyWheel, IDLE_SPEED);
             guide.setPosition(GUIDE_OPEN_POSITION);
             opMode.sleep(0);
             opMode.idle();

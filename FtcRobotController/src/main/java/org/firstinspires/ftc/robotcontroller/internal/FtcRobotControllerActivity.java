@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.view.*;
+import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -69,7 +70,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings ("ALL")
 public class FtcRobotControllerActivity extends Activity
   {
   public static final String TAG = "RCActivity";
@@ -263,7 +264,7 @@ public class FtcRobotControllerActivity extends Activity
     
       updateMonitorLayout(getResources().getConfiguration());
     
-      BlocksOpMode.setActivityAndWebView(this, findViewById(R.id.webViewBlocksRuntime));
+      BlocksOpMode.setActivityAndWebView(this, (WebView) findViewById(R.id.webViewBlocksRuntime));
     
       /*
        * Paranoia as the ClassManagerFactory requires EXTERNAL_STORAGE permissions

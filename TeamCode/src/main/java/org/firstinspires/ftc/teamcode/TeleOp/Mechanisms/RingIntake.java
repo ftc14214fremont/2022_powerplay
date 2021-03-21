@@ -1,11 +1,12 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
 package org.firstinspires.ftc.teamcode.TeleOp.Mechanisms;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import org.jetbrains.annotations.NotNull;
 
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setVelocity;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.spinner;
@@ -17,7 +18,7 @@ public final class RingIntake
     {
     }
     
-    public static void controlIntake(LinearOpMode opMode)
+    public static void controlIntake(@NotNull LinearOpMode opMode)
     {
         if (opMode.gamepad2.left_bumper)
         {

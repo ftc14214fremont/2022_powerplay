@@ -1,4 +1,9 @@
 
+/*
+ * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
+ * This code is very epic
+ */
+
 repositories {
     mavenCentral()
     google() // Needed for androidx
@@ -17,7 +22,7 @@ dependencies {
     implementation 'org.firstinspires.ftc:Hardware:6.2.1'
     implementation 'org.firstinspires.ftc:FtcCommon:6.2.1'
     implementation 'org.firstinspires.ftc:tfod:1.0.2'
-    implementation 'org.tensorflow:tensorflow-lite:1.10.0'
+    implementation 'org.tensorflow:tensorflow-lite:2.4.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
 }
 

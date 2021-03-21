@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.NonRunnable.Logic.RingLogic.RingDeterminationPipeline;
+import org.jetbrains.annotations.NotNull;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -43,6 +44,8 @@ public final class Hardware
     public static Servo guide;
     public static Servo wobble;
     public static Servo flap;
+    public static Servo leftBlocker;
+    public static Servo rightBlocker;
     
     public static BNO055IMU imu;
     
@@ -53,7 +56,7 @@ public final class Hardware
     {
     }
     
-    public static void initHardware(LinearOpMode opMode)
+    public static void initializeRobot(@NotNull LinearOpMode opMode)
     {
         List<LynxModule> allHubs = opMode.hardwareMap.getAll(LynxModule.class);
         
@@ -95,6 +98,8 @@ public final class Hardware
         guide = opMode.hardwareMap.get(Servo.class, "guide");
         wobble = opMode.hardwareMap.get(Servo.class, "wobble");
         flap = opMode.hardwareMap.get(Servo.class, "flap");
+        leftBlocker = opMode.hardwareMap.get(Servo.class, "leftBlocker");
+        rightBlocker = opMode.hardwareMap.get(Servo.class, "rightBlocker");
         
         //Initialize IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -107,7 +112,7 @@ public final class Hardware
         imu.initialize(parameters);
     }
     
-    public static void activateOpenCvCamera(LinearOpMode opMode)
+    public static void activateOpenCvCamera(@NotNull LinearOpMode opMode)
     {
         int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId",
                                                                                              "id",
@@ -118,6 +123,13 @@ public final class Hardware
         pipeline = new RingDeterminationPipeline();
         phoneCam.setPipeline(pipeline);
         phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
-        phoneCam.openCameraDeviceAsync(() -> phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT));
+        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+            }
+        });
     }
 }

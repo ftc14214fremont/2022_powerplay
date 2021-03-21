@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -11,7 +11,6 @@ public class Button
     
     public Button()
     {
-    
     }
     
     public boolean isPressed(boolean button)

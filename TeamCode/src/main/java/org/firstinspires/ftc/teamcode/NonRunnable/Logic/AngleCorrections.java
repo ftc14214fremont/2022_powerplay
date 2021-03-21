@@ -1,9 +1,11 @@
 /*
- * Copyright (c)  3/19/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/20/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
 package org.firstinspires.ftc.teamcode.NonRunnable.Logic;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
@@ -25,6 +27,7 @@ public final class AngleCorrections
         this.integral = 0;
     }
     
+    @NotNull
     public double[] getCorrectionArray()
     {
         double[] correctionArray = new double[4];
