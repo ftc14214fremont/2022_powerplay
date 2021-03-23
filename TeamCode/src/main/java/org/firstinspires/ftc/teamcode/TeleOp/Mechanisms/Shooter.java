@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/22/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -51,14 +51,7 @@ public final class Shooter
                 doCaseShooterOpenFlap(opMode);
                 break;
         }
-    }
-    
-    private static void togglePowerShotMode(@NotNull LinearOpMode opMode)
-    {
-        if (powerShotModeToggle.isPressed(opMode.gamepad2.x))
-        {
-            powerShotMode = !powerShotMode;
-        }
+        shooterExitCondition(opMode);
     }
     
     private static void doCaseShooterStart(@NotNull LinearOpMode opMode)
@@ -74,7 +67,24 @@ public final class Shooter
         else
         {
             setVelocity(flywheel, IDLE_SPEED);
+            openFlap(opMode, 0);
             openGuide(opMode, 0);
+        }
+    }
+    
+    private static void togglePowerShotMode(@NotNull LinearOpMode opMode)
+    {
+        if (powerShotModeToggle.isPressed(opMode.gamepad2.x))
+        {
+            powerShotMode = !powerShotMode;
+        }
+    }
+    
+    private static void shooterExitCondition(@NotNull LinearOpMode opMode)
+    {
+        if (opMode.gamepad2.right_trigger <= 0.5 && shooterState != SHOOTER_START)
+        {
+            shooterState = SHOOTER_START;
         }
     }
     
@@ -94,11 +104,6 @@ public final class Shooter
         if (shooterTime.milliseconds() >= FLAP_MOVEMENT_MS)
         {
             closeGuide(opMode, 0);
-            
-            if (opMode.gamepad2.right_trigger <= 0.5)
-            {
-                shooterState = SHOOTER_START;
-            }
         }
     }
     

@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/22/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -18,12 +18,12 @@ public final class ShooterFunctions
     {
     }
     
-    public static void shoot(@NotNull LinearOpMode opMode, int sleep)
+    public static void shoot(@NotNull LinearOpMode opMode, int sleepMs)
     {
         closeGuide(opMode, 300);
         setVelocity(spinner, 0.22);
-        
-        opMode.sleep(sleep);
+    
+        opMode.sleep(sleepMs);
         stopAndResetShooter(opMode);
     }
     
