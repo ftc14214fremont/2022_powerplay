@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/28/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -29,9 +29,11 @@ public final class ImuFunctions
      */
     
     private static Orientation lastAngles = new Orientation();
-    private static double      globalAngle;
-    private static double      angleError;
-    private static int         direction;
+    
+    private static double globalAngle;
+    private static double angleError;
+    
+    private static int direction;
     
     private ImuFunctions()
     {
@@ -47,6 +49,7 @@ public final class ImuFunctions
     {
         setDriveDirection(Constants.DriveMode.ROTATE_CCW);
         updateAngleError(heading);
+    
         while (Math.abs(angleError) > 0.25 && opMode.opModeIsActive())
         {
             setDriveMotorsVelocity(0.2 * direction);

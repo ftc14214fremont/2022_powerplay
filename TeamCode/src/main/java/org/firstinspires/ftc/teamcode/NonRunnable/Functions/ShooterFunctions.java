@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/22/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/28/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -20,8 +20,11 @@ public final class ShooterFunctions
     
     public static void shoot(@NotNull LinearOpMode opMode, int sleepMs)
     {
+        closeFlap(opMode, 300);
+        openFlap(opMode, 300);
         closeGuide(opMode, 300);
-        setVelocity(spinner, 0.22);
+        tubeIntake.setPower(1);
+        setVelocity(spinner, 0.13);
     
         opMode.sleep(sleepMs);
         stopAndResetShooter(opMode);

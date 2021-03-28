@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/28/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -29,7 +29,7 @@ public final class Constants
     public static final double WOBBLE_OPEN_POSITION    = 0.5;
     public static final double WOBBLE_CLOSED_POSITION  = 1;
     public static final double GUIDE_OPEN_POSITION     = 0.99;
-    public static final double GUIDE_CLOSED_POSITION   = 0.87;
+    public static final double GUIDE_CLOSED_POSITION   = 0.85;
     public static final double BLOCKER_OPEN_POSITION   = 0.45;
     public static final double BLOCKER_CLOSED_POSITION = 0;
     

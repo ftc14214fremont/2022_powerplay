@@ -1,5 +1,5 @@
 /*
- * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
+ * Copyright (c)  3/28/2021. FTC Team 14214 NvyUs
  * This code is very epic
  */
 
@@ -21,7 +21,7 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.TelemetryFunc
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.TelemetryFunctions.showRunning;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.WobbleArmFunctions.gripWobbleGoal;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Logic.RingDeterminationPipeline.RingPosition.*;
-import static org.firstinspires.ftc.teamcode.NonRunnable.Logic.RingDeterminationPipeline.ringStack;
+import static org.firstinspires.ftc.teamcode.NonRunnable.Logic.RingDeterminationPipeline.getRingStack;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.HIGH_GOAL_SPEED;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.*;
 
@@ -48,7 +48,7 @@ public class FinalAuto extends LinearOpMode
         moveBlockersUp(this);
         gripWobbleGoal(this, 0);
     
-        if (ringStack == NONE)
+        if (getRingStack() == NONE)
         {
             DrivePath strafeToAimNone = new DrivePath(0.4, 3, Constants.DriveMode.STRAFE_LEFT, this);
         
@@ -63,15 +63,15 @@ public class FinalAuto extends LinearOpMode
             advanceToShootingLine.go();
             strafeToAim.go();
         }
-        
-        shoot(this, 3000);
+    
+        shoot(this, 3300);
         correctToHeading(0, this);
     
-        if (ringStack == ONE_RING)
+        if (getRingStack() == ONE_RING)
         {
             doOneRingCase(this);
         }
-        else if (ringStack == FOUR_RINGS)
+        else if (getRingStack() == FOUR_RINGS)
         {
             doFourRingsCase(this);
         }
