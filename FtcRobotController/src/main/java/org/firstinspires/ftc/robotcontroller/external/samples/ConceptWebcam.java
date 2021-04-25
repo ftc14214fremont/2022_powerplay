@@ -78,13 +78,13 @@ public class ConceptWebcam extends LinearOpMode {
      */
     private static final int secondsPermissionTimeout = Integer.MAX_VALUE;
     private final File captureDirectory = AppUtil.ROBOT_DATA_DIR;
+    private WebcamName cameraName;
+    private Camera camera;
+    private CameraCaptureSession cameraCaptureSession;
     /**
      * State regarding our interaction with the camera
      */
     private CameraManager cameraManager;
-    private WebcamName cameraName;
-    private Camera camera;
-    private CameraCaptureSession cameraCaptureSession;
     /**
      * The queue into which all frames from the camera are placed as they become available.
      * Frames which are not processed by the OpMode are automatically discarded.

@@ -287,11 +287,11 @@ public class PushbotAutoDriveByGyro_Linear extends LinearOpMode {
     /**
      * Perform one cycle of closed loop heading control.
      *
-     * @param speed  Desired speed of turn.
-     * @param angle  Absolute Angle (in Degrees) relative to last gyro reset.
-     *               0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-     *               If a relative angle is required, add/subtract from current heading.
-     * @param PCoeff Proportional Gain coefficient
+     * @param speed     Desired speed of turn.
+     * @param angle     Absolute Angle (in Degrees) relative to last gyro reset.
+     *                  0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                  If a relative angle is required, add/subtract from current heading.
+     * @param PCoeff    Proportional Gain coefficient
      * @return
      */
     boolean onHeading(double speed, double angle, double PCoeff) {
@@ -329,10 +329,9 @@ public class PushbotAutoDriveByGyro_Linear extends LinearOpMode {
 
     /**
      * getError determines the error between the target angle and the robot's current heading
-     *
-     * @param targetAngle Desired angle (relative to global reference established at last Gyro Reset).
+     * @param   targetAngle  Desired angle (relative to global reference established at last Gyro Reset).
      * @return error angle: Degrees in the range +/- 180. Centered on the robot's frame of reference
-     * +ve error means the robot should turn LEFT (CCW) to reduce error.
+     *          +ve error means the robot should turn LEFT (CCW) to reduce error.
      */
     public double getError(double targetAngle) {
 
@@ -347,9 +346,8 @@ public class PushbotAutoDriveByGyro_Linear extends LinearOpMode {
 
     /**
      * returns desired steering force.  +/- 1 range.  +ve = steer left
-     *
-     * @param error  Error angle in robot relative degrees
-     * @param PCoeff Proportional Gain Coefficient
+     * @param error   Error angle in robot relative degrees
+     * @param PCoeff  Proportional Gain Coefficient
      * @return
      */
     public double getSteer(double error, double PCoeff) {

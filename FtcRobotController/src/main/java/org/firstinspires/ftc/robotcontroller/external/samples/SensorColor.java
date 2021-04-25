@@ -45,22 +45,22 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  * This is an example LinearOpMode that shows how to use a color sensor in a generic
  * way, regardless of which particular make or model of color sensor is used. The Op Mode
  * assumes that the color sensor is configured with a name of "sensor_color".
- * <p>
+ *
  * There will be some variation in the values measured depending on the specific sensor you are using.
- * <p>
+ *
  * You can increase the gain (a multiplier to make the sensor report higher values) by holding down
  * the A button on the gamepad, and decrease the gain by holding down the B button on the gamepad.
- * <p>
+ *
  * If the color sensor has a light which is controllable from software, you can use the X button on
  * the gamepad to toggle the light on and off. The REV sensors don't support this, but instead have
  * a physical switch on them to turn the light on and off, beginning with REV Color Sensor V2.
- * <p>
+ *
  * If the color sensor also supports short-range distance measurements (usually via an infrared
  * proximity sensor), the reported distance will be written to telemetry. As of September 2020,
  * the only color sensors that support this are the ones from REV Robotics. These infrared proximity
  * sensor measurements are only useful at very small distances, and are sensitive to ambient light
  * and surface reflectivity. You should use a different sensor if you need precise distance measurements.
- * <p>
+ *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this Op Mode to the Driver Station OpMode list
  */
@@ -110,7 +110,7 @@ public class SensorColor extends LinearOpMode {
           relativeLayout.setBackgroundColor(Color.WHITE);
         }
       });
-    }
+      }
   }
 
   protected void runSample() {
@@ -178,7 +178,7 @@ public class SensorColor extends LinearOpMode {
         // If the button is (now) down, then toggle the light
         if (xButtonCurrentlyPressed) {
           if (colorSensor instanceof SwitchableLight) {
-            SwitchableLight light = (SwitchableLight) colorSensor;
+            SwitchableLight light = (SwitchableLight)colorSensor;
             light.enableLight(!light.isLightOn());
           }
         }

@@ -1,8 +1,3 @@
-/*
- * Copyright (c)  3/21/2021. FTC Team 14214 NvyUs
- * This code is very epic
- */
-
 /**
  * Top-level build file for ftc_app project.
  *
@@ -20,7 +15,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools.build:gradle:4.0.1'
     }
 }
 
@@ -43,18 +38,17 @@ repositories {
 }
 
 dependencies {
-    doc 'org.firstinspires.ftc:Hardware:6.2.1'
-    doc 'org.firstinspires.ftc:RobotCore:6.2.1'
-    doc 'org.firstinspires.ftc:FtcCommon:6.2.1'
-    doc 'org.firstinspires.ftc:OnBotJava:6.2.1'
-    doc 'org.firstinspires.ftc:Inspection:6.2.1'
+    doc 'org.firstinspires.ftc:Hardware:6.2.0'
+    doc 'org.firstinspires.ftc:RobotCore:6.2.0'
+    doc 'org.firstinspires.ftc:FtcCommon:6.2.0'
+    doc 'org.firstinspires.ftc:OnBotJava:6.2.0'
+    doc 'org.firstinspires.ftc:Inspection:6.2.0'
 }
 
 task extractJavadoc {
     doLast {
         def componentIds = configurations.doc.incoming.resolutionResult.allDependencies.collect { it.selected.id }
 
-        //noinspection GrDeprecatedAPIUsage,GroovyAssignabilityCheck
         def result = dependencies.createArtifactResolutionQuery()
                 .forComponents(componentIds)
                 .withArtifacts(JvmLibrary, SourcesArtifact, JavadocArtifact)

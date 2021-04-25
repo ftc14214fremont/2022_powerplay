@@ -29,7 +29,6 @@ public final class FinalTeleop extends LinearOpMode {
 
         while (opModeIsActive()) {
             showTeleopTelemetry(this);
-
             controlDrivetrain(this);
             controlIntake(this);
             controlShooter(this);
