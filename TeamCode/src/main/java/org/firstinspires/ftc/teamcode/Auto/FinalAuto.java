@@ -39,15 +39,15 @@ public class FinalAuto extends LinearOpMode {
         showRunning(this);
 
         DrivePath strafeRightAtBeginning = new DrivePath(0.5, 19, Constants.DriveMode.STRAFE_RIGHT, this);
-        DrivePath advanceToShootingLine = new DrivePath(0.5, 47.5, Constants.DriveMode.STRAIGHT_FORWARD, this);
-        DrivePath strafeToAim = new DrivePath(0.5, 22, Constants.DriveMode.STRAFE_LEFT, this);
+        DrivePath advanceToShootingLine = new DrivePath(0.5, 48.5, Constants.DriveMode.STRAIGHT_FORWARD, this);
+        DrivePath strafeToAim = new DrivePath(0.5, 23.5, Constants.DriveMode.STRAFE_LEFT, this);
 
         phoneCam.closeCameraDevice();
         moveBlockersUp(this);
         gripWobbleGoal(this, 0);
 
         if (getRingStack() == NONE) {
-            DrivePath strafeToAimNone = new DrivePath(0.4, 3, Constants.DriveMode.STRAFE_LEFT, this);
+            DrivePath strafeToAimNone = new DrivePath(0.4, 4.5, Constants.DriveMode.STRAFE_LEFT, this);
 
             setVelocity(flywheel, HIGH_GOAL_SPEED);
             advanceToShootingLine.go();

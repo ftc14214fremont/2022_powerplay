@@ -11,7 +11,7 @@ import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 
 public final class Constants {
     //shooter speeds
-    public static final double HIGH_GOAL_SPEED = 0.8;
+    public static final double HIGH_GOAL_SPEED = 0.7;
     public static final double POWER_SHOT_SPEED = 0.65;
     public static final double IDLE_SPEED = -0.1;
 

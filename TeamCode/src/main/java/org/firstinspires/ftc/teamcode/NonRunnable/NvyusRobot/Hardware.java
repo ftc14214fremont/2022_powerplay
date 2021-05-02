@@ -103,7 +103,7 @@ public final class Hardware {
         BL.setZeroPowerBehavior(BRAKE);
         BR.setZeroPowerBehavior(BRAKE);
         wobbleArm.setZeroPowerBehavior(BRAKE);
-        spinner.setZeroPowerBehavior(FLOAT);
+        spinner.setZeroPowerBehavior(BRAKE);
         tubeIntake.setZeroPowerBehavior(FLOAT);
         flywheel.setZeroPowerBehavior(FLOAT);
     }
