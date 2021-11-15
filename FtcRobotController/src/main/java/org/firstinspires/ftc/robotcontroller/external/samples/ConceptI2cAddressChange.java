@@ -116,7 +116,7 @@ public class ConceptI2cAddressChange extends LinearOpMode {
 
     performAction("read", port, currentAddress, ADDRESS_MEMORY_START, TOTAL_MEMORY_LENGTH);
 
-    while(!dim.isI2cPortReady(port)) {
+    while (!dim.isI2cPortReady(port)) {
       telemetry.addData("I2cAddressChange", "waiting for the port to be ready...");
       telemetry.update();
       sleep(1000);
@@ -135,7 +135,7 @@ public class ConceptI2cAddressChange extends LinearOpMode {
       sleep(1000);
       count++;
       // if we go too long with failure, we probably are expecting the wrong bytes.
-      if (count >= 10)  {
+      if (count >= 10) {
         telemetry.addData("I2cAddressChange", String.format("Looping too long with no change, probably have the wrong address. Current address: 8bit=0x%02x", currentAddress.get8Bit()));
         hardwareMap.irSeekerSensor.get(String.format("Looping too long with no change, probably have the wrong address. Current address: 8bit=0x%02x", currentAddress.get8Bit()));
         telemetry.update();
@@ -188,13 +188,13 @@ public class ConceptI2cAddressChange extends LinearOpMode {
       StringBuilder s = new StringBuilder(300 * 4);
       String mismatch = "";
       for (int i = 0; i < byteArray.length; i++) {
-        s.append(String.format("expected: %02x, got: %02x \n", TypeConversion.unsignedByteToInt( (byte) byteArray[i]), cache[i]));
-        if (TypeConversion.unsignedByteToInt(cache[i]) != TypeConversion.unsignedByteToInt( (byte) byteArray[i])) {
+        s.append(String.format("expected: %02x, got: %02x \n", TypeConversion.unsignedByteToInt((byte) byteArray[i]), cache[i]));
+        if (TypeConversion.unsignedByteToInt(cache[i]) != TypeConversion.unsignedByteToInt((byte) byteArray[i])) {
           mismatch = String.format("i: %d, byteArray[i]: %02x, cache[i]: %02x", i, byteArray[i], cache[i]);
           allMatch = false;
         }
       }
-      RobotLog.e(s.toString() + "\n allMatch: " + allMatch + ", mismatch: " + mismatch);
+      RobotLog.e(s + "\n allMatch: " + allMatch + ", mismatch: " + mismatch);
       return allMatch;
     } finally {
       lock.unlock();

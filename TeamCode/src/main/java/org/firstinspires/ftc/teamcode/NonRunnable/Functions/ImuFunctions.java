@@ -16,8 +16,7 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveM
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveMotorFunctions.setDriveMotorsVelocity;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.imu;
 
-public final class ImuFunctions
-{
+public final class ImuFunctions {
     /*
      * These methods work by finding the delta between the last angle(which starts at zero) and current
      * measured angle and adding it to the global angle which starts at zero. This makes it possible to
@@ -27,71 +26,60 @@ public final class ImuFunctions
      * deltaAngle will be added to the global angle, and since both are zero, it will return 0, which
      * effectively resets the angle.
      */
-    
+
     private static Orientation lastAngles = new Orientation();
-    
+
     private static double globalAngle;
     private static double angleError;
-    
+
     private static int direction;
-    
-    private ImuFunctions()
-    {
+
+    private ImuFunctions() {
     }
-    
-    public static void resetAngle()
-    {
+
+    public static void resetAngle() {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         globalAngle = 0;
     }
-    
-    public static void correctToHeading(double heading, LinearOpMode opMode)
-    {
+
+    public static void correctToHeading(double heading, LinearOpMode opMode) {
         setDriveDirection(Constants.DriveMode.ROTATE_CCW);
         updateAngleError(heading);
-    
-        while (Math.abs(angleError) > 0.25 && opMode.opModeIsActive())
-        {
+
+        while (Math.abs(angleError) > 0.25 && opMode.opModeIsActive()) {
             setDriveMotorsVelocity(0.2 * direction);
             updateAngleError(heading);
         }
         setDriveMotorsVelocity(0);
     }
-    
-    public static void updateAngleError(double heading)
-    {
+
+    public static void updateAngleError(double heading) {
         angleError = heading - getAngle();
         direction = (int) (angleError / Math.abs(angleError));
     }
-    
+
     //Changes angle from 0 to ±180 to 0 to ±360
-    public static double getAngle()
-    {
+    public static double getAngle() {
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        
+
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
-        
-        if (deltaAngle < -180)
-        {
+
+        if (deltaAngle < -180) {
             deltaAngle += 360;
-        }
-        else if (deltaAngle > 180)
-        {
+        } else if (deltaAngle > 180) {
             deltaAngle -= 360;
         }
         globalAngle += deltaAngle;
         lastAngles = angles;
-        
+
         return globalAngle;
     }
-    
-    public static void turn(double heading, LinearOpMode opMode)
-    {
+
+    public static void turn(double heading, LinearOpMode opMode) {
         setDriveDirection(Constants.DriveMode.ROTATE_CCW);
         updateAngleError(heading);
-    
-        while (Math.abs(angleError) > 1 && opMode.opModeIsActive())
-        {
+
+        while (Math.abs(angleError) > 1 && opMode.opModeIsActive()) {
             setDriveMotorsVelocity(0.35 * direction);
             updateAngleError(heading);
         }

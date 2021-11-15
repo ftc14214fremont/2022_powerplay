@@ -55,14 +55,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Disabled
 public class ConceptDIMAsIndicator extends LinearOpMode {
 
-    static final int    BLUE_LED    = 0;     // Blue LED channel on DIM
-    static final int    RED_LED     = 1;     // Red LED Channel on DIM
+    static final int BLUE_LED = 0;     // Blue LED channel on DIM
+    static final int RED_LED = 1;     // Red LED Channel on DIM
 
     // Create timer to toggle LEDs
-    private ElapsedTime runtime = new ElapsedTime();
+    private final ElapsedTime runtime = new ElapsedTime();
 
     // Define class members
-    DeviceInterfaceModule   dim;
+    DeviceInterfaceModule dim;
 
     @Override
     public void runOpMode() {
@@ -72,31 +72,31 @@ public class ConceptDIMAsIndicator extends LinearOpMode {
         dim = hardwareMap.get(DeviceInterfaceModule.class, "dim");
 
         // Toggle LEDs while Waiting for the start button
-        telemetry.addData(">", "Press Play to test LEDs." );
+        telemetry.addData(">", "Press Play to test LEDs.");
         telemetry.update();
 
         while (!isStarted()) {
             // Determine if we are on an odd or even second
-            boolean even = (((int)(runtime.time()) & 0x01) == 0);
-            dim.setLED(RED_LED,   even); // Red for even
+            boolean even = (((int) (runtime.time()) & 0x01) == 0);
+            dim.setLED(RED_LED, even); // Red for even
             dim.setLED(BLUE_LED, !even); // Blue for odd
             idle();
         }
 
         // Running now
-        telemetry.addData(">", "Press X for Blue, B for Red." );
+        telemetry.addData(">", "Press X for Blue, B for Red.");
         telemetry.update();
 
         // Now just use red and blue buttons to set red and blue LEDs
-        while(opModeIsActive()){
+        while (opModeIsActive()) {
             dim.setLED(BLUE_LED, gamepad1.x);
-            dim.setLED(RED_LED,  gamepad1.b);
+            dim.setLED(RED_LED, gamepad1.b);
             idle();
         }
 
         // Turn off LEDs;
         dim.setLED(BLUE_LED, false);
-        dim.setLED(RED_LED,  false);
+        dim.setLED(RED_LED, false);
         telemetry.addData(">", "Done");
         telemetry.update();
     }

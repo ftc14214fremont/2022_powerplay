@@ -32,27 +32,16 @@ package org.firstinspires.ftc.robotcontroller.external.samples;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.os.Handler;
-
 import androidx.annotation.NonNull;
-
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.RobotLog;
-
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.android.util.Size;
 import org.firstinspires.ftc.robotcore.external.function.Consumer;
 import org.firstinspires.ftc.robotcore.external.function.Continuation;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.Camera;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCaptureRequest;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCaptureSequenceId;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCaptureSession;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraCharacteristics;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraException;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraFrame;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraManager;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.*;
 import org.firstinspires.ftc.robotcore.internal.collections.EvictingBlockingQueue;
 import org.firstinspires.ftc.robotcore.internal.network.CallbackLooper;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
@@ -73,7 +62,7 @@ import java.util.concurrent.TimeUnit;
  * by various means (e.g.: Device File Explorer in Android Studio; plugging the device into a PC and
  * using Media Transfer; ADB; etc)
  */
-@TeleOp(name="Concept: Webcam", group ="Concept")
+@TeleOp(name = "Concept: Webcam", group = "Concept")
 @Disabled
 public class ConceptWebcam extends LinearOpMode {
 
@@ -83,34 +72,41 @@ public class ConceptWebcam extends LinearOpMode {
 
     private static final String TAG = "Webcam Sample";
 
-    /** How long we are to wait to be granted permission to use the camera before giving up. Here,
-     * we wait indefinitely */
+    /**
+     * How long we are to wait to be granted permission to use the camera before giving up. Here,
+     * we wait indefinitely
+     */
     private static final int secondsPermissionTimeout = Integer.MAX_VALUE;
-
-    /** State regarding our interaction with the camera */
-    private CameraManager cameraManager;
+    private final File captureDirectory = AppUtil.ROBOT_DATA_DIR;
     private WebcamName cameraName;
     private Camera camera;
     private CameraCaptureSession cameraCaptureSession;
-
-    /** The queue into which all frames from the camera are placed as they become available.
-     * Frames which are not processed by the OpMode are automatically discarded. */
+    /**
+     * State regarding our interaction with the camera
+     */
+    private CameraManager cameraManager;
+    /**
+     * The queue into which all frames from the camera are placed as they become available.
+     * Frames which are not processed by the OpMode are automatically discarded.
+     */
     private EvictingBlockingQueue<Bitmap> frameQueue;
-
-    /** State regarding where and how to save frames when the 'A' button is pressed. */
+    /**
+     * State regarding where and how to save frames when the 'A' button is pressed.
+     */
     private int captureCounter = 0;
-    private File captureDirectory = AppUtil.ROBOT_DATA_DIR;
-
-    /** A utility object that indicates where the asynchronous callbacks from the camera
+    /**
+     * A utility object that indicates where the asynchronous callbacks from the camera
      * infrastructure are to run. In this OpMode, that's all hidden from you (but see {@link #startCamera}
-     * if you're curious): no knowledge of multi-threading is needed here. */
+     * if you're curious): no knowledge of multi-threading is needed here.
+     */
     private Handler callbackHandler;
 
     //----------------------------------------------------------------------------------------------
     // Main OpMode entry
     //----------------------------------------------------------------------------------------------
 
-    @Override public void runOpMode() {
+    @Override
+    public void runOpMode() {
 
         callbackHandler = CallbackLooper.getDefault().getHandler();
 
@@ -158,7 +154,9 @@ public class ConceptWebcam extends LinearOpMode {
         }
     }
 
-    /** Do something with the frame */
+    /**
+     * Do something with the frame
+     */
     private void onNewFrame(Bitmap frame) {
         saveBitmap(frame);
         frame.recycle(); // not strictly necessary, but helpful
@@ -173,7 +171,8 @@ public class ConceptWebcam extends LinearOpMode {
          * quickly by the OpMode. This avoids a buildup of frames in memory */
         frameQueue = new EvictingBlockingQueue<Bitmap>(new ArrayBlockingQueue<Bitmap>(capacity));
         frameQueue.setEvictAction(new Consumer<Bitmap>() {
-            @Override public void accept(Bitmap frame) {
+            @Override
+            public void accept(Bitmap frame) {
                 // RobotLog.ii(TAG, "frame recycled w/o processing");
                 frame.recycle(); // not strictly necessary, but helpful
             }
@@ -213,28 +212,31 @@ public class ConceptWebcam extends LinearOpMode {
         try {
             /** Create a session in which requests to capture frames can be made */
             camera.createCaptureSession(Continuation.create(callbackHandler, new CameraCaptureSession.StateCallbackDefault() {
-                @Override public void onConfigured(@NonNull CameraCaptureSession session) {
+                @Override
+                public void onConfigured(@NonNull CameraCaptureSession session) {
                     try {
                         /** The session is ready to go. Start requesting frames */
                         final CameraCaptureRequest captureRequest = camera.createCaptureRequest(imageFormat, size, fps);
                         session.startCapture(captureRequest,
-                            new CameraCaptureSession.CaptureCallback() {
-                                @Override public void onNewFrame(@NonNull CameraCaptureSession session, @NonNull CameraCaptureRequest request, @NonNull CameraFrame cameraFrame) {
-                                    /** A new frame is available. The frame data has <em>not</em> been copied for us, and we can only access it
-                                     * for the duration of the callback. So we copy here manually. */
-                                    Bitmap bmp = captureRequest.createEmptyBitmap();
-                                    cameraFrame.copyToBitmap(bmp);
-                                    frameQueue.offer(bmp);
-                                }
-                            },
-                            Continuation.create(callbackHandler, new CameraCaptureSession.StatusCallback() {
-                                @Override public void onCaptureSequenceCompleted(@NonNull CameraCaptureSession session, CameraCaptureSequenceId cameraCaptureSequenceId, long lastFrameNumber) {
-                                    RobotLog.ii(TAG, "capture sequence %s reports completed: lastFrame=%d", cameraCaptureSequenceId, lastFrameNumber);
-                                }
-                            })
+                                new CameraCaptureSession.CaptureCallback() {
+                                    @Override
+                                    public void onNewFrame(@NonNull CameraCaptureSession session, @NonNull CameraCaptureRequest request, @NonNull CameraFrame cameraFrame) {
+                                        /** A new frame is available. The frame data has <em>not</em> been copied for us, and we can only access it
+                                         * for the duration of the callback. So we copy here manually. */
+                                        Bitmap bmp = captureRequest.createEmptyBitmap();
+                                        cameraFrame.copyToBitmap(bmp);
+                                        frameQueue.offer(bmp);
+                                    }
+                                },
+                                Continuation.create(callbackHandler, new CameraCaptureSession.StatusCallback() {
+                                    @Override
+                                    public void onCaptureSequenceCompleted(@NonNull CameraCaptureSession session, CameraCaptureSequenceId cameraCaptureSequenceId, long lastFrameNumber) {
+                                        RobotLog.ii(TAG, "capture sequence %s reports completed: lastFrame=%d", cameraCaptureSequenceId, lastFrameNumber);
+                                    }
+                                })
                         );
                         synchronizer.finish(session);
-                    } catch (CameraException|RuntimeException e) {
+                    } catch (CameraException | RuntimeException e) {
                         RobotLog.ee(TAG, e, "exception starting capture");
                         error("exception starting capture");
                         session.close();
@@ -242,7 +244,7 @@ public class ConceptWebcam extends LinearOpMode {
                     }
                 }
             }));
-        } catch (CameraException|RuntimeException e) {
+        } catch (CameraException | RuntimeException e) {
             RobotLog.ee(TAG, e, "exception starting camera");
             error("exception starting camera");
             synchronizer.finish(null);
@@ -283,7 +285,8 @@ public class ConceptWebcam extends LinearOpMode {
         telemetry.log().add(msg);
         telemetry.update();
     }
-    private void error(String format, Object...args) {
+
+    private void error(String format, Object... args) {
         telemetry.log().add(format, args);
         telemetry.update();
     }

@@ -14,17 +14,15 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.TelemetryFunc
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.initializeRobot;
 
 @Autonomous
-public class BlockerTest extends LinearOpMode
-{
+public class BlockerTest extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException
-    {
+    public void runOpMode() throws InterruptedException {
         initializeRobot(this);
-        
+
         showReady(this);
-        
+
         waitForStart();
-        
+
         moveBlockersUp(this);
         sleep(1000);
         moveBlockersDown(this);

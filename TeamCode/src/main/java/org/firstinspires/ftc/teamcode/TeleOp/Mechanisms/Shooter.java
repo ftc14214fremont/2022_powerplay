@@ -16,31 +16,26 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.*;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.ShooterState.*;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.flywheel;
 
-public final class Shooter
-{
+public final class Shooter {
     private static final Button powerShotModeToggle = new Button();
-    
+
     private static final ElapsedTime shooterTime = new ElapsedTime();
-    
+
     private static ShooterState shooterState = SHOOTER_START;
-    
+
     private static boolean powerShotMode = false;
-    
-    private Shooter()
-    {
+
+    private Shooter() {
     }
-    
-    public static boolean getPowerShotMode()
-    {
+
+    public static boolean getPowerShotMode() {
         return powerShotMode;
     }
-    
-    public static void controlShooter(@NotNull LinearOpMode opMode)
-    {
+
+    public static void controlShooter(@NotNull LinearOpMode opMode) {
         togglePowerShotMode(opMode);
-        
-        switch (shooterState)
-        {
+
+        switch (shooterState) {
             case SHOOTER_START:
                 doCaseShooterStart(opMode);
                 break;
@@ -53,68 +48,52 @@ public final class Shooter
         }
         shooterExitCondition(opMode);
     }
-    
-    private static void doCaseShooterStart(@NotNull LinearOpMode opMode)
-    {
-        if (opMode.gamepad2.right_trigger > 0.5)
-        {
+
+    private static void doCaseShooterStart(@NotNull LinearOpMode opMode) {
+        if (opMode.gamepad2.right_trigger > 0.5) {
             adjustShooterSpeed();
             closeFlap(opMode, 0);
-            
+
             shooterTime.reset();
             shooterState = SHOOTER_CLOSE_FLAP;
-        }
-        else
-        {
+        } else {
             setVelocity(flywheel, IDLE_SPEED);
             openFlap(opMode, 0);
             openGuide(opMode, 0);
         }
     }
-    
-    private static void togglePowerShotMode(@NotNull LinearOpMode opMode)
-    {
-        if (powerShotModeToggle.isPressed(opMode.gamepad2.x))
-        {
+
+    private static void togglePowerShotMode(@NotNull LinearOpMode opMode) {
+        if (powerShotModeToggle.isPressed(opMode.gamepad2.x)) {
             powerShotMode = !powerShotMode;
         }
     }
-    
-    private static void shooterExitCondition(@NotNull LinearOpMode opMode)
-    {
-        if (opMode.gamepad2.right_trigger <= 0.5 && shooterState != SHOOTER_START)
-        {
+
+    private static void shooterExitCondition(@NotNull LinearOpMode opMode) {
+        if (opMode.gamepad2.right_trigger <= 0.5 && shooterState != SHOOTER_START) {
             shooterState = SHOOTER_START;
         }
     }
-    
-    private static void doCaseShooterCloseFlap(@NotNull LinearOpMode opMode)
-    {
-        if (shooterTime.milliseconds() >= FLAP_MOVEMENT_MS)
-        {
+
+    private static void doCaseShooterCloseFlap(@NotNull LinearOpMode opMode) {
+        if (shooterTime.milliseconds() >= FLAP_MOVEMENT_MS) {
             openFlap(opMode, 0);
-            
+
             shooterTime.reset();
             shooterState = SHOOTER_OPEN_FLAP;
         }
     }
-    
-    private static void doCaseShooterOpenFlap(@NotNull LinearOpMode opMode)
-    {
-        if (shooterTime.milliseconds() >= FLAP_MOVEMENT_MS)
-        {
+
+    private static void doCaseShooterOpenFlap(@NotNull LinearOpMode opMode) {
+        if (shooterTime.milliseconds() >= FLAP_MOVEMENT_MS) {
             closeGuide(opMode, 0);
         }
     }
-    
-    private static void adjustShooterSpeed()
-    {
-        if (powerShotMode)
-        {
+
+    private static void adjustShooterSpeed() {
+        if (powerShotMode) {
             setVelocity(flywheel, POWER_SHOT_SPEED);
-        }
-        else
-        {
+        } else {
             setVelocity(flywheel, HIGH_GOAL_SPEED);
         }
     }

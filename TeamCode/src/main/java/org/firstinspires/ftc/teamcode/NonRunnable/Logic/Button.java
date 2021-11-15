@@ -5,16 +5,13 @@
 
 package org.firstinspires.ftc.teamcode.NonRunnable.Logic;
 
-public class Button
-{
+public class Button {
     private boolean wasPressed = false;
-    
-    public Button()
-    {
+
+    public Button() {
     }
-    
-    public boolean isPressed(boolean button)
-    {
+
+    public boolean isPressed(boolean button) {
         boolean tempWasPressed = wasPressed;
         wasPressed = button;
         return button && !tempWasPressed;

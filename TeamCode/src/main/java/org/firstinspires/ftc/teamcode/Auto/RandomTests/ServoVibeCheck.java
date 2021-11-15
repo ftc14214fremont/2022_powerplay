@@ -14,45 +14,37 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.ini
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.rightBlocker;
 
 @Autonomous
-public class ServoVibeCheck extends LinearOpMode
-{
-    double  position = (MAX_POS - MIN_POS) / 2;
-    boolean rampUp   = true;
-    
+public class ServoVibeCheck extends LinearOpMode {
+    double position = (MAX_POS - MIN_POS) / 2;
+    boolean rampUp = true;
+
     @Override
-    public void runOpMode() throws InterruptedException
-    {
+    public void runOpMode() throws InterruptedException {
         initializeRobot(this);
-        
+
         showReady(this);
-        
+
         waitForStart();
-        
-        while (opModeIsActive())
-        {
-            if (rampUp)
-            {
+
+        while (opModeIsActive()) {
+            if (rampUp) {
                 position += INCREMENT;
-                if (position >= MAX_POS)
-                {
+                if (position >= MAX_POS) {
                     position = MAX_POS;
                     rampUp = false;
                 }
-            }
-            else
-            {
+            } else {
                 position -= INCREMENT;
-                if (position <= MIN_POS)
-                {
+                if (position <= MIN_POS) {
                     position = MIN_POS;
                     rampUp = true;
                 }
             }
-            
+
             telemetry.addData("Servo Position", "%5.2f", position);
             telemetry.addData(">", "Press Stop to end test.");
             telemetry.update();
-            
+
             rightBlocker.setPosition(position);
             sleep(CYCLE_MS);
             idle();

@@ -14,50 +14,41 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.*;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.wobbleArm;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.wobbleGrip;
 
-public final class WobbleArmFunctions
-{
-    private WobbleArmFunctions()
-    {
+public final class WobbleArmFunctions {
+    private WobbleArmFunctions() {
     }
-    
-    public static void moveWobbleArmDown(LinearOpMode opMode)
-    {
+
+    public static void moveWobbleArmDown(LinearOpMode opMode) {
         wobbleArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         wobbleArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        
-        while ((wobbleArm.getCurrentPosition() <= wobbleArmDegreesToCounts(183)) && opMode.opModeIsActive())
-        {
+
+        while ((wobbleArm.getCurrentPosition() <= wobbleArmDegreesToCounts(183)) && opMode.opModeIsActive()) {
             setVelocity(wobbleArm, 0.6);
         }
         setVelocity(wobbleArm, 0);
     }
-    
-    public static double wobbleArmDegreesToCounts(double degrees)
-    {
+
+    public static double wobbleArmDegreesToCounts(double degrees) {
         return degrees * WOBBLE_ARM_COUNTS_PER_DEG;
     }
-    
-    public static void moveWobbleArmUp(LinearOpMode opMode)
-    {
+
+    public static void moveWobbleArmUp(LinearOpMode opMode) {
         wobbleArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         wobbleArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        
-        while ((wobbleArm.getCurrentPosition() >= wobbleArmDegreesToCounts(-183)) && opMode.opModeIsActive())
-        {
+
+        while ((wobbleArm.getCurrentPosition() >= wobbleArmDegreesToCounts(-183)) && opMode.opModeIsActive()) {
             setVelocity(wobbleArm, -0.6);
         }
         setVelocity(wobbleArm, 0);
     }
-    
-    public static void releaseWobbleGoal(@NotNull LinearOpMode opMode, int sleepMs)
-    {
+
+    public static void releaseWobbleGoal(@NotNull LinearOpMode opMode, int sleepMs) {
         wobbleGrip.setPosition(WOBBLE_OPEN_POSITION);
         opMode.sleep(sleepMs);
         opMode.idle();
     }
-    
-    public static void gripWobbleGoal(@NotNull LinearOpMode opMode, int sleepMs)
-    {
+
+    public static void gripWobbleGoal(@NotNull LinearOpMode opMode, int sleepMs) {
         wobbleGrip.setPosition(WOBBLE_CLOSED_POSITION);
         opMode.sleep(sleepMs);
         opMode.idle();

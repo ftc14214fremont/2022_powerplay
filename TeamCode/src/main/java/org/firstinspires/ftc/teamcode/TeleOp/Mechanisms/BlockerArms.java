@@ -12,26 +12,19 @@ import org.jetbrains.annotations.NotNull;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.BlockerFunctions.moveBlockersDown;
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.BlockerFunctions.moveBlockersUp;
 
-public final class BlockerArms
-{
+public final class BlockerArms {
     private static final Button toggleBlockerArms = new Button();
-    
+
     private static boolean blockerArmsUp = true;
-    
-    private BlockerArms()
-    {
+
+    private BlockerArms() {
     }
-    
-    public static void controlBlockerArms(@NotNull LinearOpMode opMode)
-    {
-        if (toggleBlockerArms.isPressed(opMode.gamepad1.b))
-        {
-            if (blockerArmsUp)
-            {
+
+    public static void controlBlockerArms(@NotNull LinearOpMode opMode) {
+        if (toggleBlockerArms.isPressed(opMode.gamepad1.b)) {
+            if (blockerArmsUp) {
                 moveBlockersUp(opMode);
-            }
-            else
-            {
+            } else {
                 moveBlockersDown(opMode);
             }
             blockerArmsUp = !blockerArmsUp;

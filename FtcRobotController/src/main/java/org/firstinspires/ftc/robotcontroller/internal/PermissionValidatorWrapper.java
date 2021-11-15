@@ -31,9 +31,7 @@ package org.firstinspires.ftc.robotcontroller.internal;
 
 import android.Manifest;
 import android.os.Bundle;
-
 import com.qualcomm.ftcrobotcontroller.R;
-
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
 import org.firstinspires.ftc.robotcore.internal.system.PermissionValidatorActivity;
 
@@ -76,15 +74,13 @@ public class PermissionValidatorWrapper extends PermissionValidatorActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         permissions = robotControllerPermissions;
     }
 
-    protected Class onStartApplication()
-    {
+    protected Class onStartApplication() {
         FtcRobotControllerActivity.setPermissionsValidated();
         return startApplication;
     }

@@ -17,22 +17,18 @@ import static org.firstinspires.ftc.teamcode.TeleOp.Mechanisms.Shooter.controlSh
 import static org.firstinspires.ftc.teamcode.TeleOp.Mechanisms.WobbleArm.controlWobbleArm;
 
 @TeleOp
-public final class FinalTeleop extends LinearOpMode
-{
+public final class FinalTeleop extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException
-    {
+    public void runOpMode() throws InterruptedException {
         initializeRobot(this);
         showReady(this);
-    
+
         waitForStart();
-    
+
         showRunning(this);
-    
-        while (opModeIsActive())
-        {
+
+        while (opModeIsActive()) {
             showTeleopTelemetry(this);
-    
             controlDrivetrain(this);
             controlIntake(this);
             controlShooter(this);

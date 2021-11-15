@@ -13,18 +13,15 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.ImuFunctions.
 import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.WobbleArmFunctions.*;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode;
 
-public final class OneRingCase
-{
-    private OneRingCase()
-    {
+public final class OneRingCase {
+    private OneRingCase() {
     }
-    
-    public static void doOneRingCase(LinearOpMode opMode)
-    {
-        DrivePath strafeToWobbleZone     = new DrivePath(0.4, 30, DriveMode.STRAFE_LEFT, opMode);
+
+    public static void doOneRingCase(LinearOpMode opMode) {
+        DrivePath strafeToWobbleZone = new DrivePath(0.4, 30, DriveMode.STRAFE_LEFT, opMode);
         DrivePath strafeBackToLaunchLine = new DrivePath(0.4, 6, DriveMode.STRAFE_RIGHT, opMode);
-        DrivePath releaseByMovingBack    = new DrivePath(0.3, 4, DriveMode.BACKWARD, opMode);
-        
+        DrivePath releaseByMovingBack = new DrivePath(0.3, 4, DriveMode.BACKWARD, opMode);
+
         turn(-90, opMode);
         correctToHeading(-90, opMode);
         strafeToWobbleZone.go();

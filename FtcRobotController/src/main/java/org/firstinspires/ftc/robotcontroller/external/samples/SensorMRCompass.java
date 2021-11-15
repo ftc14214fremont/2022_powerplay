@@ -35,7 +35,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 
 /**
@@ -54,9 +53,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 public class SensorMRCompass extends LinearOpMode {
 
     ModernRoboticsI2cCompassSensor compass;
-    ElapsedTime                    timer = new ElapsedTime();
+    ElapsedTime timer = new ElapsedTime();
 
-    @Override public void runOpMode() {
+    @Override
+    public void runOpMode() {
 
         // get a reference to our compass
         compass = hardwareMap.get(ModernRoboticsI2cCompassSensor.class, "compass");
@@ -120,7 +120,7 @@ public class SensorMRCompass extends LinearOpMode {
 
         if (compass.isCalibrating()) {
 
-            telemetry.addData("compass", "calibrating %s", Math.round(timer.seconds())%2==0 ? "|.." : "..|");
+            telemetry.addData("compass", "calibrating %s", Math.round(timer.seconds()) % 2 == 0 ? "|.." : "..|");
 
         } else {
 
@@ -132,7 +132,7 @@ public class SensorMRCompass extends LinearOpMode {
             // the sensor. This is used internally to the sensor to compute its tilt and thence
             // to correct the magnetometer reading to produce tilt-corrected values in getDirection()
             Acceleration accel = compass.getAcceleration();
-            double accelMagnitude = Math.sqrt(accel.xAccel*accel.xAccel + accel.yAccel*accel.yAccel + accel.zAccel*accel.zAccel);
+            double accelMagnitude = Math.sqrt(accel.xAccel * accel.xAccel + accel.yAccel * accel.yAccel + accel.zAccel * accel.zAccel);
             telemetry.addData("accel", accel);
             telemetry.addData("accel magnitude", "%.3f", accelMagnitude);
 

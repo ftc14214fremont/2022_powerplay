@@ -13,14 +13,11 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.BL
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.leftBlocker;
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.rightBlocker;
 
-public final class BlockerFunctions
-{
-    private BlockerFunctions()
-    {
+public final class BlockerFunctions {
+    private BlockerFunctions() {
     }
-    
-    public static void moveBlockersUp(@NotNull LinearOpMode opMode)
-    {
+
+    public static void moveBlockersUp(@NotNull LinearOpMode opMode) {
         leftBlocker.setPosition(BLOCKER_OPEN_POSITION);
         opMode.sleep(0);
         opMode.idle();
@@ -28,9 +25,8 @@ public final class BlockerFunctions
         opMode.sleep(0);
         opMode.idle();
     }
-    
-    public static void moveBlockersDown(@NotNull LinearOpMode opMode)
-    {
+
+    public static void moveBlockersDown(@NotNull LinearOpMode opMode) {
         leftBlocker.setPosition(BLOCKER_CLOSED_POSITION);
         opMode.sleep(0);
         opMode.idle();

@@ -32,7 +32,6 @@ package org.firstinspires.ftc.robotcontroller.external.samples;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
-
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -82,10 +81,10 @@ public class SensorAdafruitRGB extends LinearOpMode {
   public void runOpMode() {
 
     // hsvValues is an array that will hold the hue, saturation, and value information.
-    float hsvValues[] = {0F,0F,0F};
+    float[] hsvValues = {0F, 0F, 0F};
 
     // values is a reference to the hsvValues array.
-    final float values[] = hsvValues;
+    final float[] values = hsvValues;
 
     // get a reference to the RelativeLayout so we can change the background
     // color of the Robot Controller app to match the hue detected by the RGB sensor.
@@ -118,13 +117,13 @@ public class SensorAdafruitRGB extends LinearOpMode {
 
     // loop and read the RGB data.
     // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
-    while (opModeIsActive())  {
+    while (opModeIsActive()) {
 
       // check the status of the x button on gamepad.
       bCurrState = gamepad1.x;
 
       // check for button-press state transitions.
-      if ((bCurrState == true) && (bCurrState != bPrevState))  {
+      if ((bCurrState == true) && (bCurrState != bPrevState)) {
 
         // button is transitioning to a pressed state. Toggle the LED.
         bLedOn = !bLedOn;

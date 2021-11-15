@@ -27,105 +27,96 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.Functions.GeneralDriveM
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Constants.DriveMode;
 import static org.openftc.easyopencv.OpenCvCamera.ViewportRenderingPolicy;
 
-public final class Hardware
-{
+public final class Hardware {
     public static DcMotorEx[] driveMotors;
-    
+
     public static DcMotorEx FL;
     public static DcMotorEx FR;
     public static DcMotorEx BL;
     public static DcMotorEx BR;
-    
+
     public static DcMotorEx spinner;
     public static DcMotorEx flywheel;
-    
+
     public static DcMotorEx wobbleArm;
-    
+
     public static DcMotor tubeIntake;
-    
+
     public static Servo guide;
     public static Servo wobbleGrip;
     public static Servo flap;
     public static Servo leftBlocker;
     public static Servo rightBlocker;
-    
+
     public static BNO055IMU imu;
-    
-    public static OpenCvInternalCamera      phoneCam;
+
+    public static OpenCvInternalCamera phoneCam;
     public static RingDeterminationPipeline pipeline;
-    
-    private Hardware()
-    {
+
+    private Hardware() {
     }
-    
-    public static void initializeRobot(@NotNull LinearOpMode opMode)
-    {
+
+    public static void initializeRobot(@NotNull LinearOpMode opMode) {
         List<LynxModule> allHubs = opMode.hardwareMap.getAll(LynxModule.class);
-    
-        for (LynxModule module : allHubs)
-        {
+
+        for (LynxModule module : allHubs) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
         initializeHardwareMapForAllMotors(opMode);
         setAllMotorsDirections();
         setAllMotorsZeroPowerBehavior();
-    
+
         //changed flywheel PID from default for better shooting
         flywheel.setVelocityPIDFCoefficients(50, 0, 0, 15);
-    
+
         initializeHardwareMapForAllServos(opMode);
-    
+
         initializeIMU(opMode);
     }
-    
-    private static void initializeHardwareMapForAllMotors(@NotNull LinearOpMode opMode)
-    {
+
+    private static void initializeHardwareMapForAllMotors(@NotNull LinearOpMode opMode) {
         FL = opMode.hardwareMap.get(DcMotorEx.class, "FL");
         FR = opMode.hardwareMap.get(DcMotorEx.class, "FR");
         BL = opMode.hardwareMap.get(DcMotorEx.class, "BL");
         BR = opMode.hardwareMap.get(DcMotorEx.class, "BR");
-        
+
         driveMotors = new DcMotorEx[]{FL, FR, BL, BR};
-        
+
         spinner = opMode.hardwareMap.get(DcMotorEx.class, "spinner");
         flywheel = opMode.hardwareMap.get(DcMotorEx.class, "speedy");
-        
+
         tubeIntake = opMode.hardwareMap.get(DcMotor.class, "tubes");
         wobbleArm = opMode.hardwareMap.get(DcMotorEx.class, "arm");
     }
-    
-    private static void setAllMotorsDirections()
-    {
+
+    private static void setAllMotorsDirections() {
         tubeIntake.setDirection(FORWARD);
         spinner.setDirection(REVERSE);
         flywheel.setDirection(FORWARD);
         wobbleArm.setDirection(FORWARD);
         setDriveDirection(DriveMode.STRAIGHT_FORWARD);
     }
-    
-    private static void setAllMotorsZeroPowerBehavior()
-    {
+
+    private static void setAllMotorsZeroPowerBehavior() {
         FL.setZeroPowerBehavior(BRAKE);
         FR.setZeroPowerBehavior(BRAKE);
         BL.setZeroPowerBehavior(BRAKE);
         BR.setZeroPowerBehavior(BRAKE);
         wobbleArm.setZeroPowerBehavior(BRAKE);
-        spinner.setZeroPowerBehavior(FLOAT);
+        spinner.setZeroPowerBehavior(BRAKE);
         tubeIntake.setZeroPowerBehavior(FLOAT);
         flywheel.setZeroPowerBehavior(FLOAT);
     }
-    
-    private static void initializeHardwareMapForAllServos(@NotNull LinearOpMode opMode)
-    {
+
+    private static void initializeHardwareMapForAllServos(@NotNull LinearOpMode opMode) {
         guide = opMode.hardwareMap.get(Servo.class, "guide");
         wobbleGrip = opMode.hardwareMap.get(Servo.class, "wobble");
         flap = opMode.hardwareMap.get(Servo.class, "flap");
         leftBlocker = opMode.hardwareMap.get(Servo.class, "leftBlocker");
         rightBlocker = opMode.hardwareMap.get(Servo.class, "rightBlocker");
     }
-    
-    private static void initializeIMU(@NotNull LinearOpMode opMode)
-    {
+
+    private static void initializeIMU(@NotNull LinearOpMode opMode) {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
@@ -135,15 +126,14 @@ public final class Hardware
         imu.write8(BNO055IMU.Register.OPR_MODE, 0b00000011);
         imu.initialize(parameters);
     }
-    
-    public static void activateOpenCvCamera(@NotNull LinearOpMode opMode)
-    {
+
+    public static void activateOpenCvCamera(@NotNull LinearOpMode opMode) {
         int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId",
-                                                                                             "id",
-                                                                                             opMode.hardwareMap.appContext
-                                                                                                     .getPackageName());
+                "id",
+                opMode.hardwareMap.appContext
+                        .getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK,
-                                                                          cameraMonitorViewId);
+                cameraMonitorViewId);
         pipeline = new RingDeterminationPipeline();
         phoneCam.setPipeline(pipeline);
         phoneCam.setViewportRenderingPolicy(ViewportRenderingPolicy.OPTIMIZE_VIEW);

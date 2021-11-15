@@ -15,21 +15,18 @@ import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.act
 import static org.firstinspires.ftc.teamcode.NonRunnable.NvyusRobot.Hardware.initializeRobot;
 
 @Autonomous
-public class RingDetectionTest extends LinearOpMode
-{
+public class RingDetectionTest extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException
-    {
+    public void runOpMode() throws InterruptedException {
         activateOpenCvCamera(this);
         initializeRobot(this);
         showReady(this);
-    
+
         waitForStart();
-    
+
         showRunning(this);
-    
-        while (opModeIsActive())
-        {
+
+        while (opModeIsActive()) {
             telemetry.addData("rings found:", getRingStack());
             telemetry.update();
         }
