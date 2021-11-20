@@ -20,7 +20,7 @@ public class TankDriveTest extends LinearOpMode {
 
         //intended to move forward 48 inches
 
-        double COUNTS_PER_INCH_TANK_DRIVE = 48.57359127;
+        double COUNTS_PER_INCH_TANK_DRIVE = 38.8588684844;
 
         //set motor directions to move forwards
         FL.setDirection(REVERSE);
