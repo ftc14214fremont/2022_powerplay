@@ -26,7 +26,6 @@ public class NvyusRobotHardware {
     public static DcMotorEx BL;
     public static DcMotorEx BR;
 
-    public static final double DROPPER_CLOSED_POSITION = 0.83;
     public static DcMotorEx linearSlide;
     public static DcMotorEx intake;
     public static DcMotorEx arm;
