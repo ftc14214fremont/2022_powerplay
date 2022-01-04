@@ -31,7 +31,7 @@ import static org.firstinspires.ftc.teamcode.FreightFrenzy.ShippingElementDetect
     15 pts - "capping"
     */
 @Autonomous
-public class FinalAuto extends LinearOpMode {
+public class FinalAutoRed2022 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         initializationStuff();
@@ -81,8 +81,8 @@ public class FinalAuto extends LinearOpMode {
     }
 
     private void initializationStuff() {
-        initializeNvyusRobotHardware(FinalAuto.this);
-        initializeNvyusRobotCamera(FinalAuto.this);
+        initializeNvyusRobotHardware(FinalAutoRed2022.this);
+        initializeNvyusRobotCamera(FinalAutoRed2022.this);
 
         telemetry.addLine("ready");
         telemetry.update();
@@ -103,7 +103,7 @@ public class FinalAuto extends LinearOpMode {
     }
 
     private void spinCarousel() {
-        carousel.setPower(0.25);
+        carousel.setPower(0.9);
     }
 
     private void moveForwardSlightly() {

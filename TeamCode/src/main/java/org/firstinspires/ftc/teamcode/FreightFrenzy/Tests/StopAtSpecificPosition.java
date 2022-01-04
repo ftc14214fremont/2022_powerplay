@@ -10,7 +10,7 @@ import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.NvyusRobotHar
 public class StopAtSpecificPosition extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        initializeNvyusRobotHardware(StopAtSpecificPosition.this);
+        initializeNvyusRobotHardware(this);
         telemetry.addLine("ready");
         telemetry.update();
 
@@ -21,10 +21,12 @@ public class StopAtSpecificPosition extends LinearOpMode {
                 intake.setPower(0.4);
             } else if (gamepad1.left_bumper) {
                 intake.setPower(-0.4);
-            } else if (intake.getCurrentPosition() % 145 < 14) {
-                intake.setPower(0);
             } else {
-                intake.setPower(0.4);
+                if (Math.abs(intake.getCurrentPosition()) % 145 < 14) {
+                    intake.setPower(0);
+                } else {
+                    intake.setPower(0.1);
+                }
             }
 
             telemetry.addLine("intakePos: " + intake.getCurrentPosition());

@@ -64,7 +64,7 @@ public class NvyusRobotHardware {
         BR.setZeroPowerBehavior(BRAKE);
 
         linearSlide.setZeroPowerBehavior(BRAKE);
-        intake.setZeroPowerBehavior(FLOAT);
+        intake.setZeroPowerBehavior(BRAKE);
         arm.setZeroPowerBehavior(BRAKE);
         carousel.setZeroPowerBehavior(FLOAT);
 
