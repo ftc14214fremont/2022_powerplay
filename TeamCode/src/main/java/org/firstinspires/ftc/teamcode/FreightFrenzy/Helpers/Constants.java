@@ -13,4 +13,6 @@ public class Constants {
     public static final double DROPPER_OPEN_POSITION = 0.4;
     public static final int SERVO_RETRACT_ARM_POSITION = -1650;
 
+    //left means bottom
+
 }

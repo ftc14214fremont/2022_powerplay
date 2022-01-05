@@ -26,7 +26,6 @@ public class LiftUpAndSecureCargoTest extends LinearOpMode {
 
 
         waitForStart();
-        //series of commands to get the arm ready
 
         //reset encoder value
         arm.setMode(STOP_AND_RESET_ENCODER);
