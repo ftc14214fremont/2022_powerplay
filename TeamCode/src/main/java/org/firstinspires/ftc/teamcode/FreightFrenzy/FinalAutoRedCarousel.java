@@ -14,7 +14,7 @@ import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.ImuFunctions.
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.ImuFunctions.resetAngle;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.MotorFunctions.setVelocity;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.NvyusRobotHardware.*;
-import static org.firstinspires.ftc.teamcode.FreightFrenzy.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.SkystonePosition.RIGHT;
+import static org.firstinspires.ftc.teamcode.FreightFrenzy.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.SkystonePosition.*;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.getShippingElementPosition;
 
 //plan
@@ -35,7 +35,7 @@ import static org.firstinspires.ftc.teamcode.FreightFrenzy.ShippingElementDetect
     15 pts - "capping"
     */
 @Autonomous
-public class FinalAutoRed2022 extends LinearOpMode {
+public class FinalAutoRedCarousel extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         initializationStuff();
@@ -44,24 +44,75 @@ public class FinalAutoRed2022 extends LinearOpMode {
 
         spinCarousel();
         moveForward(3, 0.3);
-        turnCCWWithBR(96);
-//        moveForwardSlightly();
-        stopSpinningCarousel(3000);
-        turnAfterTurningCarousel(118);
-        moveForward(36, -0.3);
+        turnCCWBR(96);
+        stopSpinningCarousel(3500);
+        turnAfterTurningCarousel(123);
 
+        if (getShippingElementPosition() == RIGHT) {
+            moveBackward(32, 0.3);
+            depositCargoOnTopLevel();
+            moveForward(18, 0.3);
+            turnCW(94);
+            moveBackward(85, 0.5);
+            lowerLift();
 
+            //raise dropper to make sure we are fully parked
+            dropper.setPosition(DROPPER_FIT_POSITION);
+            sleep(1000);
+            idle();
+        } else if (getShippingElementPosition() == CENTER) {
+            moveBackward(21, 0.3);
+            depositCargoOnMidLevel();
+            moveForward(7, 0.3);
+            turnCW(94);
+            moveBackward(85, 0.5);
+            lowerLift();
+
+            //raise dropper to make sure we are fully parked
+            dropper.setPosition(DROPPER_FIT_POSITION);
+            sleep(1000);
+            idle();
+        } else if (getShippingElementPosition() == LEFT) {
+            moveBackward(20, 0.3);
+            depositCargoOnBotLevel();
+            moveForward(6, 0.3);
+            turnCW(94);
+            raiseLiftPartially();
+            moveBackward(85, 0.5);
+            lowerLift();
+
+            //raise dropper to make sure we are fully parked
+            dropper.setPosition(DROPPER_FIT_POSITION);
+            sleep(1000);
+            idle();
+        }
+
+    }
+
+    private void raiseLiftPartially() {
+        linearSlide.setMode(STOP_AND_RESET_ENCODER);
+        //move linear slide up
+        double currentPosition = linearSlide.getCurrentPosition();
+        while (opModeIsActive() && currentPosition > -1670 / (2.0)) {
+
+            setVelocity(linearSlide, -0.5);
+            telemetry.addLine("position:" + currentPosition);
+            telemetry.update();
+            currentPosition = linearSlide.getCurrentPosition();
+        }
+        setVelocity(linearSlide, 0);
     }
 
     private void depositCargoOnTopLevel() {
         //reset encoder value
         arm.setMode(STOP_AND_RESET_ENCODER);
         linearSlide.setMode(STOP_AND_RESET_ENCODER);
+
         //move linear slide up
         raiseLift();
 
         //close servo on cargo
-        dropper.setPosition(Constants.DROPPER_SECURE_POSITION);
+        dropper.setPosition(DROPPER_SECURE_POSITION);
         sleep(1000);
         idle();
 
@@ -85,8 +136,125 @@ public class FinalAutoRed2022 extends LinearOpMode {
         sleep(1000);
         idle();
 
-        //Move linear slide back down
-        lowerLift();
+        //move arm back to start
+        while (arm.getCurrentPosition() > ARM_START_POSITION && opModeIsActive()) {
+            if (arm.getCurrentPosition() > 650) {
+                setVelocity(arm, -0.4);
+            } else {
+                arm.setZeroPowerBehavior(FLOAT);
+                arm.setPower(0);
+            }
+            telemetry.addLine("arm: " + arm.getCurrentPosition());
+            telemetry.update();
+        }
+        arm.setZeroPowerBehavior(BRAKE);
+        setVelocity(arm, 0);
+    }
+
+    private void depositCargoOnMidLevel() {
+        //reset encoder value
+        arm.setMode(STOP_AND_RESET_ENCODER);
+        linearSlide.setMode(STOP_AND_RESET_ENCODER);
+
+        //move linear slide up
+        raiseLift();
+
+        //close servo on cargo
+        dropper.setPosition(DROPPER_SECURE_POSITION);
+        sleep(1000);
+        idle();
+
+        //rotate arm to position
+        while (arm.getCurrentPosition() < COUNTS_FOR_MID_LEVEL && opModeIsActive()) {
+            if (arm.getCurrentPosition() < COUNTS_FOR_MID_LEVEL / 2.0) {
+                setVelocity(arm, 0.4);
+            } else {
+                setVelocity(arm, 0.2);
+            }
+            telemetry.addLine("arm: " + arm.getCurrentPosition());
+            telemetry.update();
+        }
+        arm.setZeroPowerBehavior(BRAKE);
+        setVelocity(arm, 0);
+
+        //fully drop cargo
+        dropper.setPosition(Constants.DROPPER_CLOSED_POSITION);
+        sleep(1000);
+        idle();
+
+
+        //move arm back to start
+        while (arm.getCurrentPosition() > ARM_START_POSITION && opModeIsActive()) {
+            if (arm.getCurrentPosition() > 650) {
+                setVelocity(arm, -0.4);
+            } else {
+                arm.setZeroPowerBehavior(FLOAT);
+                arm.setPower(0);
+            }
+            telemetry.addLine("arm: " + arm.getCurrentPosition());
+            telemetry.update();
+        }
+        arm.setZeroPowerBehavior(BRAKE);
+        setVelocity(arm, 0);
+
+        //move dropper back to open position
+        dropper.setPosition(Constants.DROPPER_OPEN_POSITION);
+        sleep(1000);
+        idle();
+
+    }
+
+    private void depositCargoOnBotLevel() {
+        //reset encoder value
+        arm.setMode(STOP_AND_RESET_ENCODER);
+        linearSlide.setMode(STOP_AND_RESET_ENCODER);
+
+        //rotate arm to middle
+        while (arm.getCurrentPosition() < COUNTS_FOR_BOT_MID && opModeIsActive()) {
+            setVelocity(arm, 0.25);
+            telemetry.addLine("arm: " + arm.getCurrentPosition());
+            telemetry.update();
+        }
+        arm.setZeroPowerBehavior(BRAKE);
+        setVelocity(arm, 0);
+
+        //close servo on cargo
+        dropper.setPosition(DROPPER_SECURE_POSITION);
+        sleep(1000);
+        idle();
+
+        //rotate arm to position
+        while (arm.getCurrentPosition() < COUNTS_FOR_BOT_LEVEL && opModeIsActive()) {
+            if (arm.getCurrentPosition() < COUNTS_FOR_BOT_LEVEL / 2) {
+                setVelocity(arm, 0.2);
+            } else {
+
+                setVelocity(arm, 0.1);
+            }
+            telemetry.addLine("arm: " + arm.getCurrentPosition());
+            telemetry.update();
+        }
+        arm.setZeroPowerBehavior(BRAKE);
+        setVelocity(arm, 0);
+
+        //fully drop cargo
+        dropper.setPosition(Constants.DROPPER_CLOSED_POSITION);
+        sleep(1000);
+        idle();
+
+        //move arm back to mid
+        while (arm.getCurrentPosition() > COUNTS_FOR_BOT_MID && opModeIsActive()) {
+            setVelocity(arm, -0.2);
+            telemetry.addLine("arm: " + arm.getCurrentPosition());
+            telemetry.update();
+        }
+        arm.setZeroPowerBehavior(BRAKE);
+        setVelocity(arm, 0);
+
+        //move dropper back to open position
+        dropper.setPosition(Constants.DROPPER_OPEN_POSITION);
+        sleep(1000);
+        idle();
 
         //move arm back to start
         while (arm.getCurrentPosition() > ARM_START_POSITION && opModeIsActive()) {
@@ -187,15 +355,17 @@ public class FinalAutoRed2022 extends LinearOpMode {
 
     private void lowerLift() {
         //Move linear slide back down®
-        while (opModeIsActive() && linearSlide.getCurrentPosition() < -120) {
+        double currentPosition = linearSlide.getCurrentPosition();
+        while (opModeIsActive() && currentPosition < -120) {
             setVelocity(linearSlide, 0.5);
+            currentPosition = linearSlide.getCurrentPosition();
         }
         setVelocity(linearSlide, 0);
     }
 
     private void initializationStuff() {
-        initializeNvyusRobotHardware(FinalAutoRed2022.this);
-        initializeNvyusRobotCamera(FinalAutoRed2022.this);
+        initializeNvyusRobotHardware(FinalAutoRedCarousel.this);
+        initializeNvyusRobotCamera(FinalAutoRedCarousel.this);
 
         telemetry.addLine("ready");
         telemetry.update();
@@ -219,16 +389,8 @@ public class FinalAutoRed2022 extends LinearOpMode {
         carousel.setPower(0.9);
     }
 
-    private void moveForwardSlightly() {
-        setVelocity(BL, 0.1);
-        setVelocity(BR, 0.1);
-        sleep(500);
-        BL.setPower(0);
-        BR.setPower(0);
-    }
 
-
-    private void turnCCWWithBR(double turnAngle) {
+    private void turnCCWBR(double turnAngle) {
         double currentAngle = getAngle();
 
         while (currentAngle < turnAngle && opModeIsActive()) {
@@ -243,55 +405,25 @@ public class FinalAutoRed2022 extends LinearOpMode {
             currentAngle = getAngle();
         }
         BR.setPower(0);
-        sleep(100);
+        sleep(1000);
     }
 
-    private void turnCWWithBR(double turnAngle) {
+    private void turnCW(double turnAngle) {
         double currentAngle = getAngle();
         BR.setDirection(REVERSE);
-        FR.setDirection(REVERSE);
+        BL.setDirection(REVERSE);
 
         while (currentAngle > turnAngle && opModeIsActive()) {
-            BL.setPower(0);
-            if (currentAngle > turnAngle * 0.6) {
-                setVelocity(BR, 0.4);
-                setVelocity(FR, 0.4);
-            } else {
-                setVelocity(BR, 0.2);
-                setVelocity(FR, 0.2);
-            }
+            setVelocity(BR, 0.2);
+            setVelocity(BL, 0.2);
+
             telemetry.addLine("angle: " + currentAngle);
             telemetry.update();
             currentAngle = getAngle();
         }
         BR.setPower(0);
-        FR.setPower(0);
-        sleep(100);
-    }
-
-    private void moveForwardInitially() {
-        int BRposition = BR.getCurrentPosition();
-
-        while (BRposition < 15 && opModeIsActive()) {
-            setVelocity(BL, 0.1);
-            setVelocity(BR, 0.1);
-            setVelocity(FL, 0.1);
-            setVelocity(FR, 0.1);
-            telemetry.addLine("BL:" + BRposition);
-            telemetry.update();
-            BRposition = BL.getCurrentPosition();
-        }
-
-        sleep(800);
-
         BL.setPower(0);
-        BR.setPower(0);
-        FL.setPower(0);
-        FR.setPower(0);
-
-        sleep(100);
-
-
+        sleep(1000);
     }
 
     private void turnAfterTurningCarousel(double turnAngle) {
