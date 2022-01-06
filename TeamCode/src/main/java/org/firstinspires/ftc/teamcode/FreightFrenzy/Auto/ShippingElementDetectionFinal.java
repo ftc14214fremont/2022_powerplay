@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FreightFrenzy;
+package org.firstinspires.ftc.teamcode.FreightFrenzy.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;

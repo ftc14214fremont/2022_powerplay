@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.teamcode.FreightFrenzy.ShippingElementDetectionFinal;
+import org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal;
 import org.jetbrains.annotations.NotNull;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -15,6 +15,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.List;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
@@ -76,6 +77,9 @@ public class NvyusRobotHardware {
 
         linearSlide.setDirection(FORWARD);
         intake.setDirection(FORWARD);
+
+        //reset encoders
+        intake.setMode(STOP_AND_RESET_ENCODER);
 
         //initialize IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

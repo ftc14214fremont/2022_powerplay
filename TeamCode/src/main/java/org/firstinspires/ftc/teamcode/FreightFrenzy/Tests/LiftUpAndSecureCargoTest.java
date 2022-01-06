@@ -7,11 +7,11 @@ import org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.Constants;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
+import static org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.getShippingElementPosition;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.Constants.ARM_START_POSITION;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.Constants.COUNTS_FOR_TOP_LEVEL;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.MotorFunctions.setVelocity;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.NvyusRobotHardware.*;
-import static org.firstinspires.ftc.teamcode.FreightFrenzy.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.getShippingElementPosition;
 
 @Autonomous
 public class LiftUpAndSecureCargoTest extends LinearOpMode {

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FreightFrenzy;
+package org.firstinspires.ftc.teamcode.FreightFrenzy.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -9,13 +9,13 @@ import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
+import static org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.SkystonePosition.*;
+import static org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.getShippingElementPosition;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.Constants.*;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.ImuFunctions.getAngle;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.ImuFunctions.resetAngle;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.MotorFunctions.setVelocity;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.NvyusRobotHardware.*;
-import static org.firstinspires.ftc.teamcode.FreightFrenzy.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.SkystonePosition.*;
-import static org.firstinspires.ftc.teamcode.FreightFrenzy.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.getShippingElementPosition;
 
 //plan
     /* rotate carousel to deliver duck - 10 pts
@@ -86,7 +86,6 @@ public class FinalAutoRedCarousel extends LinearOpMode {
             sleep(1000);
             idle();
         }
-
     }
 
     private void raiseLiftPartially() {
@@ -109,7 +108,7 @@ public class FinalAutoRedCarousel extends LinearOpMode {
         linearSlide.setMode(STOP_AND_RESET_ENCODER);
 
         //move linear slide up
-        raiseLift();
+        raiseLiftFully();
 
         //close servo on cargo
         dropper.setPosition(DROPPER_SECURE_POSITION);
@@ -157,7 +156,7 @@ public class FinalAutoRedCarousel extends LinearOpMode {
         linearSlide.setMode(STOP_AND_RESET_ENCODER);
 
         //move linear slide up
-        raiseLift();
+        raiseLiftFully();
 
         //close servo on cargo
         dropper.setPosition(DROPPER_SECURE_POSITION);
@@ -303,6 +302,48 @@ public class FinalAutoRedCarousel extends LinearOpMode {
         sleep(100);
     }
 
+    private void moveBackSpecial(double speed, double inches) {
+        //set motor directions
+        FL.setDirection(FORWARD);
+        FR.setDirection(REVERSE);
+        BL.setDirection(FORWARD);
+        BR.setDirection(REVERSE);
+
+        //reset all encoders
+        BL.setMode(STOP_AND_RESET_ENCODER);
+        BR.setMode(STOP_AND_RESET_ENCODER);
+        FL.setMode(STOP_AND_RESET_ENCODER);
+        FR.setMode(STOP_AND_RESET_ENCODER);
+        int position = BL.getCurrentPosition();
+
+        while (Math.abs(position) < (inches * COUNTS_PER_INCH_TANK_DRIVE) && opModeIsActive()) {
+            if (Math.abs(position) < (inches * COUNTS_PER_INCH_TANK_DRIVE * 0.6)) {
+                setVelocity(BL, speed);
+                setVelocity(BR, speed);
+                setVelocity(FL, speed);
+                setVelocity(FR, speed);
+                position = BL.getCurrentPosition();
+                telemetry.addLine("position: " + position);
+                telemetry.update();
+            } else {
+                setVelocity(BL, speed / 2);
+                setVelocity(BR, speed / 2);
+                setVelocity(FL, speed / 2);
+                setVelocity(FR, speed / 2);
+                position = BL.getCurrentPosition();
+                telemetry.addLine("position: " + position);
+                telemetry.update();
+            }
+
+        }
+        setVelocity(BL, 0);
+        setVelocity(BR, 0);
+        setVelocity(FL, 0);
+        setVelocity(FR, 0);
+
+        sleep(100);
+    }
+
     private void moveForward(double inches, double speed) {
         //set motor directions
         FL.setDirection(REVERSE);
@@ -339,7 +380,7 @@ public class FinalAutoRedCarousel extends LinearOpMode {
         carousel.setPower(0);
     }
 
-    private void raiseLift() {
+    private void raiseLiftFully() {
         linearSlide.setMode(STOP_AND_RESET_ENCODER);
         //move linear slide up
         double currentPosition = linearSlide.getCurrentPosition();
