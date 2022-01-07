@@ -2,20 +2,20 @@ package org.firstinspires.ftc.teamcode.FreightFrenzy.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.Constants;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
-import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.SkystonePosition.*;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.getShippingElementPosition;
-import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.Constants.*;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.ImuFunctions.getAngle;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.ImuFunctions.resetAngle;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.MotorFunctions.setVelocity;
+import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.MovementFunctions.moveBackward;
+import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.MovementFunctions.moveForward;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.NvyusRobotHardware.*;
+import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.OuttakeFunctions.*;
 
 //plan
     /* rotate carousel to deliver duck - 10 pts
@@ -43,365 +43,34 @@ public class FinalAutoRedCarousel extends LinearOpMode {
         phoneCam.closeCameraDevice();
 
         spinCarousel();
-        moveForward(3, 0.3);
+        moveForward(3, 0.3, this);
         turnCCWBR(96);
-        stopSpinningCarousel(3500);
+        stopSpinningCarousel(3500, this);
         turnAfterTurningCarousel(123);
 
         if (getShippingElementPosition() == RIGHT) {
-            moveBackward(32, 0.3);
-            depositCargoOnTopLevel();
-            moveForward(18, 0.3);
+            moveBackward(32, 0.3, this);
+            depositCargoOnTopLevel(this);
+            moveForward(18, 0.3, this);
             turnCW(94);
-            moveBackward(85, 0.5);
-            lowerLift();
-
-            //raise dropper to make sure we are fully parked
-            dropper.setPosition(DROPPER_FIT_POSITION);
-            sleep(1000);
-            idle();
+            moveBackward(85, 0.5, this);
+            lowerLift(this);
         } else if (getShippingElementPosition() == CENTER) {
-            moveBackward(21, 0.3);
-            depositCargoOnMidLevel();
-            moveForward(7, 0.3);
+            moveBackward(21, 0.3, this);
+            depositCargoOnMidLevel(this);
+            moveForward(7, 0.3, this);
             turnCW(94);
-            moveBackward(85, 0.5);
-            lowerLift();
-
-            //raise dropper to make sure we are fully parked
-            dropper.setPosition(DROPPER_FIT_POSITION);
-            sleep(1000);
-            idle();
+            moveBackward(85, 0.5, this);
+            lowerLift(this);
         } else if (getShippingElementPosition() == LEFT) {
             moveBackward(20, 0.3);
             depositCargoOnBotLevel();
             moveForward(6, 0.3);
             turnCW(94);
-            raiseLiftPartially();
-            moveBackward(85, 0.5);
-            lowerLift();
-
-            //raise dropper to make sure we are fully parked
-            dropper.setPosition(DROPPER_FIT_POSITION);
-            sleep(1000);
-            idle();
+            raiseLiftPartially(this);
+            moveBackward(85, 0.5, this);
+            lowerLift(this);
         }
-    }
-
-    private void raiseLiftPartially() {
-        linearSlide.setMode(STOP_AND_RESET_ENCODER);
-        //move linear slide up
-        double currentPosition = linearSlide.getCurrentPosition();
-        while (opModeIsActive() && currentPosition > -1670 / (2.0)) {
-
-            setVelocity(linearSlide, -0.5);
-            telemetry.addLine("position:" + currentPosition);
-            telemetry.update();
-            currentPosition = linearSlide.getCurrentPosition();
-        }
-        setVelocity(linearSlide, 0);
-    }
-
-    private void depositCargoOnTopLevel() {
-        //reset encoder value
-        arm.setMode(STOP_AND_RESET_ENCODER);
-        linearSlide.setMode(STOP_AND_RESET_ENCODER);
-
-        //move linear slide up
-        raiseLiftFully();
-
-        //close servo on cargo
-        dropper.setPosition(DROPPER_SECURE_POSITION);
-        sleep(1000);
-        idle();
-
-        //rotate arm to position
-        while (arm.getCurrentPosition() < COUNTS_FOR_TOP_LEVEL && opModeIsActive()) {
-            if (arm.getCurrentPosition() < COUNTS_FOR_TOP_LEVEL / 2.0) {
-                setVelocity(arm, 0.4);
-            } else {
-                setVelocity(arm, 0.1);
-            }
-            telemetry.addLine("arm: " + arm.getCurrentPosition());
-            telemetry.update();
-        }
-        setVelocity(arm, 0);
-
-        //fully drop cargo
-        dropper.setPosition(Constants.DROPPER_CLOSED_POSITION);
-        sleep(1000);
-        idle();
-        dropper.setPosition(Constants.DROPPER_OPEN_POSITION);
-        sleep(1000);
-        idle();
-
-        //move arm back to start
-        while (arm.getCurrentPosition() > ARM_START_POSITION && opModeIsActive()) {
-            if (arm.getCurrentPosition() > 650) {
-                setVelocity(arm, -0.4);
-            } else {
-                arm.setZeroPowerBehavior(FLOAT);
-                arm.setPower(0);
-            }
-            telemetry.addLine("arm: " + arm.getCurrentPosition());
-            telemetry.update();
-        }
-        arm.setZeroPowerBehavior(BRAKE);
-        setVelocity(arm, 0);
-    }
-
-    private void depositCargoOnMidLevel() {
-        //reset encoder value
-        arm.setMode(STOP_AND_RESET_ENCODER);
-        linearSlide.setMode(STOP_AND_RESET_ENCODER);
-
-        //move linear slide up
-        raiseLiftFully();
-
-        //close servo on cargo
-        dropper.setPosition(DROPPER_SECURE_POSITION);
-        sleep(1000);
-        idle();
-
-        //rotate arm to position
-        while (arm.getCurrentPosition() < COUNTS_FOR_MID_LEVEL && opModeIsActive()) {
-            if (arm.getCurrentPosition() < COUNTS_FOR_MID_LEVEL / 2.0) {
-                setVelocity(arm, 0.4);
-            } else {
-                setVelocity(arm, 0.2);
-            }
-            telemetry.addLine("arm: " + arm.getCurrentPosition());
-            telemetry.update();
-        }
-        arm.setZeroPowerBehavior(BRAKE);
-        setVelocity(arm, 0);
-
-        //fully drop cargo
-        dropper.setPosition(Constants.DROPPER_CLOSED_POSITION);
-        sleep(1000);
-        idle();
-
-
-        //move arm back to start
-        while (arm.getCurrentPosition() > ARM_START_POSITION && opModeIsActive()) {
-            if (arm.getCurrentPosition() > 650) {
-                setVelocity(arm, -0.4);
-            } else {
-                arm.setZeroPowerBehavior(FLOAT);
-                arm.setPower(0);
-            }
-            telemetry.addLine("arm: " + arm.getCurrentPosition());
-            telemetry.update();
-        }
-        arm.setZeroPowerBehavior(BRAKE);
-        setVelocity(arm, 0);
-
-        //move dropper back to open position
-        dropper.setPosition(Constants.DROPPER_OPEN_POSITION);
-        sleep(1000);
-        idle();
-
-    }
-
-    private void depositCargoOnBotLevel() {
-        //reset encoder value
-        arm.setMode(STOP_AND_RESET_ENCODER);
-        linearSlide.setMode(STOP_AND_RESET_ENCODER);
-
-        //rotate arm to middle
-        while (arm.getCurrentPosition() < COUNTS_FOR_BOT_MID && opModeIsActive()) {
-            setVelocity(arm, 0.25);
-            telemetry.addLine("arm: " + arm.getCurrentPosition());
-            telemetry.update();
-        }
-        arm.setZeroPowerBehavior(BRAKE);
-        setVelocity(arm, 0);
-
-        //close servo on cargo
-        dropper.setPosition(DROPPER_SECURE_POSITION);
-        sleep(1000);
-        idle();
-
-        //rotate arm to position
-        while (arm.getCurrentPosition() < COUNTS_FOR_BOT_LEVEL && opModeIsActive()) {
-            if (arm.getCurrentPosition() < COUNTS_FOR_BOT_LEVEL / 2) {
-                setVelocity(arm, 0.2);
-            } else {
-
-                setVelocity(arm, 0.1);
-            }
-            telemetry.addLine("arm: " + arm.getCurrentPosition());
-            telemetry.update();
-        }
-        arm.setZeroPowerBehavior(BRAKE);
-        setVelocity(arm, 0);
-
-        //fully drop cargo
-        dropper.setPosition(Constants.DROPPER_CLOSED_POSITION);
-        sleep(1000);
-        idle();
-
-        //move arm back to mid
-        while (arm.getCurrentPosition() > COUNTS_FOR_BOT_MID && opModeIsActive()) {
-            setVelocity(arm, -0.2);
-            telemetry.addLine("arm: " + arm.getCurrentPosition());
-            telemetry.update();
-        }
-        arm.setZeroPowerBehavior(BRAKE);
-        setVelocity(arm, 0);
-
-        //move dropper back to open position
-        dropper.setPosition(Constants.DROPPER_OPEN_POSITION);
-        sleep(1000);
-        idle();
-
-        //move arm back to start
-        while (arm.getCurrentPosition() > ARM_START_POSITION && opModeIsActive()) {
-            if (arm.getCurrentPosition() > 650) {
-                setVelocity(arm, -0.4);
-            } else {
-                arm.setZeroPowerBehavior(FLOAT);
-                arm.setPower(0);
-            }
-            telemetry.addLine("arm: " + arm.getCurrentPosition());
-            telemetry.update();
-        }
-        arm.setZeroPowerBehavior(BRAKE);
-        setVelocity(arm, 0);
-    }
-
-
-    private void moveBackward(double inches, double speed) {
-        //set motor directions
-        FL.setDirection(FORWARD);
-        FR.setDirection(REVERSE);
-        BL.setDirection(FORWARD);
-        BR.setDirection(REVERSE);
-
-        //reset all encoders
-        BL.setMode(STOP_AND_RESET_ENCODER);
-        BR.setMode(STOP_AND_RESET_ENCODER);
-        FL.setMode(STOP_AND_RESET_ENCODER);
-        FR.setMode(STOP_AND_RESET_ENCODER);
-        int position = BR.getCurrentPosition();
-
-        while (Math.abs(position) < (inches * COUNTS_PER_INCH_TANK_DRIVE) && opModeIsActive()) {
-            setVelocity(BL, speed);
-            setVelocity(BR, speed);
-            setVelocity(FL, speed);
-            setVelocity(FR, speed);
-            position = BL.getCurrentPosition();
-            telemetry.addLine("position: " + position);
-            telemetry.update();
-        }
-        setVelocity(BL, 0);
-        setVelocity(BR, 0);
-        setVelocity(FL, 0);
-        setVelocity(FR, 0);
-
-        sleep(100);
-    }
-
-    private void moveBackSpecial(double speed, double inches) {
-        //set motor directions
-        FL.setDirection(FORWARD);
-        FR.setDirection(REVERSE);
-        BL.setDirection(FORWARD);
-        BR.setDirection(REVERSE);
-
-        //reset all encoders
-        BL.setMode(STOP_AND_RESET_ENCODER);
-        BR.setMode(STOP_AND_RESET_ENCODER);
-        FL.setMode(STOP_AND_RESET_ENCODER);
-        FR.setMode(STOP_AND_RESET_ENCODER);
-        int position = BL.getCurrentPosition();
-
-        while (Math.abs(position) < (inches * COUNTS_PER_INCH_TANK_DRIVE) && opModeIsActive()) {
-            if (Math.abs(position) < (inches * COUNTS_PER_INCH_TANK_DRIVE * 0.6)) {
-                setVelocity(BL, speed);
-                setVelocity(BR, speed);
-                setVelocity(FL, speed);
-                setVelocity(FR, speed);
-                position = BL.getCurrentPosition();
-                telemetry.addLine("position: " + position);
-                telemetry.update();
-            } else {
-                setVelocity(BL, speed / 2);
-                setVelocity(BR, speed / 2);
-                setVelocity(FL, speed / 2);
-                setVelocity(FR, speed / 2);
-                position = BL.getCurrentPosition();
-                telemetry.addLine("position: " + position);
-                telemetry.update();
-            }
-
-        }
-        setVelocity(BL, 0);
-        setVelocity(BR, 0);
-        setVelocity(FL, 0);
-        setVelocity(FR, 0);
-
-        sleep(100);
-    }
-
-    private void moveForward(double inches, double speed) {
-        //set motor directions
-        FL.setDirection(REVERSE);
-        FR.setDirection(FORWARD);
-        BL.setDirection(REVERSE);
-        BR.setDirection(FORWARD);
-
-        //reset all encoders
-        BL.setMode(STOP_AND_RESET_ENCODER);
-        BR.setMode(STOP_AND_RESET_ENCODER);
-        FL.setMode(STOP_AND_RESET_ENCODER);
-        FR.setMode(STOP_AND_RESET_ENCODER);
-        int position = BR.getCurrentPosition();
-
-        while (position < (inches * COUNTS_PER_INCH_TANK_DRIVE) && opModeIsActive()) {
-            setVelocity(BL, speed);
-            setVelocity(BR, speed);
-            setVelocity(FL, speed);
-            setVelocity(FR, speed);
-            position = BL.getCurrentPosition();
-            telemetry.addLine("position: " + position);
-            telemetry.update();
-        }
-        setVelocity(BL, 0);
-        setVelocity(BR, 0);
-        setVelocity(FL, 0);
-        setVelocity(FR, 0);
-
-        sleep(100);
-    }
-
-    private void stopSpinningCarousel(int spinningTime) {
-        sleep(spinningTime);
-        carousel.setPower(0);
-    }
-
-    private void raiseLiftFully() {
-        linearSlide.setMode(STOP_AND_RESET_ENCODER);
-        //move linear slide up
-        double currentPosition = linearSlide.getCurrentPosition();
-        while (opModeIsActive() && currentPosition > -1670) {
-
-            setVelocity(linearSlide, -0.5);
-            telemetry.addLine("position:" + currentPosition);
-            telemetry.update();
-            currentPosition = linearSlide.getCurrentPosition();
-        }
-        setVelocity(linearSlide, 0);
-    }
-
-    private void lowerLift() {
-        //Move linear slide back down®
-        double currentPosition = linearSlide.getCurrentPosition();
-        while (opModeIsActive() && currentPosition < -120) {
-            setVelocity(linearSlide, 0.5);
-            currentPosition = linearSlide.getCurrentPosition();
-        }
-        setVelocity(linearSlide, 0);
     }
 
     private void initializationStuff() {
@@ -425,11 +94,6 @@ public class FinalAutoRedCarousel extends LinearOpMode {
         //reset IMU
         resetAngle();
     }
-
-    private void spinCarousel() {
-        carousel.setPower(0.9);
-    }
-
 
     private void turnCCWBR(double turnAngle) {
         double currentAngle = getAngle();

@@ -80,6 +80,8 @@ public class NvyusRobotHardware {
 
         //reset encoders
         intake.setMode(STOP_AND_RESET_ENCODER);
+        linearSlide.setMode(STOP_AND_RESET_ENCODER);
+        arm.setMode(STOP_AND_RESET_ENCODER);
 
         //initialize IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

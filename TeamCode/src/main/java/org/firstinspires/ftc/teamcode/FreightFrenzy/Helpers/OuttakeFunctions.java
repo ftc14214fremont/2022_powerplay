@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
+import static com.qualcomm.robotcore.hardware.Servo.Direction.FORWARD;
+import static com.qualcomm.robotcore.hardware.Servo.Direction.REVERSE;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.getShippingElementPosition;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.Constants.*;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.ImuFunctions.getAngle;
@@ -79,17 +81,11 @@ public class OuttakeFunctions {
     }
 
     public static void depositCargoOnMidLevel(LinearOpMode opMode) {
-        //reset encoder value
-        arm.setMode(STOP_AND_RESET_ENCODER);
-        linearSlide.setMode(STOP_AND_RESET_ENCODER);
-
         //move linear slide up
         raiseLiftFully(opMode);
 
         //close servo on cargo
-        dropper.setPosition(DROPPER_SECURE_POSITION);
-        opMode.sleep(1000);
-        opMode.idle();
+        secureCargo(opMode);
 
         //rotate arm to position
         while (arm.getCurrentPosition() < COUNTS_FOR_MID_LEVEL && opMode.opModeIsActive()) {
@@ -105,84 +101,45 @@ public class OuttakeFunctions {
         setVelocity(arm, 0);
 
         //fully drop cargo
-        dropper.setPosition(Constants.DROPPER_CLOSED_POSITION);
-        opMode.sleep(1000);
-        opMode.idle();
+        dropCargo(opMode);
 
 
         //move arm back to start
-        while (arm.getCurrentPosition() > ARM_START_POSITION && opMode.opModeIsActive()) {
-            if (arm.getCurrentPosition() > 650) {
-                setVelocity(arm, -0.4);
-            } else {
-                arm.setZeroPowerBehavior(FLOAT);
-                arm.setPower(0);
-            }
-            opMode.telemetry.addLine("arm: " + arm.getCurrentPosition());
-            opMode.telemetry.update();
-        }
-        arm.setZeroPowerBehavior(BRAKE);
-        setVelocity(arm, 0);
+        moveArmBackToStart(opMode);
 
         //move dropper back to open position
-        dropper.setPosition(Constants.DROPPER_OPEN_POSITION);
-        opMode.sleep(1000);
-        opMode.idle();
+        resetDropper(opMode);
     }
 
     public static void depositCargoOnTopLevel(LinearOpMode opMode) {
-        //reset encoder value
-        arm.setMode(STOP_AND_RESET_ENCODER);
-        linearSlide.setMode(STOP_AND_RESET_ENCODER);
-
         //move linear slide up
         raiseLiftFully(opMode);
 
         //close servo on cargo
-        dropper.setPosition(DROPPER_SECURE_POSITION);
-        opMode.sleep(1000);
-        opMode.idle();
+        secureCargo(opMode);
 
         //rotate arm to position
         while (arm.getCurrentPosition() < COUNTS_FOR_TOP_LEVEL && opMode.opModeIsActive()) {
             if (arm.getCurrentPosition() < COUNTS_FOR_TOP_LEVEL / 2.0) {
                 setVelocity(arm, 0.4);
             } else {
-                setVelocity(arm, 0.1);
-            }
-            opMode.telemetry.addLine("arm: " + arm.getCurrentPosition());
-            opMode.telemetry.update();
-        }
-        setVelocity(arm, 0);
-
-        //fully drop cargo
-        dropper.setPosition(Constants.DROPPER_CLOSED_POSITION);
-        opMode.sleep(1000);
-        opMode.idle();
-        dropper.setPosition(Constants.DROPPER_OPEN_POSITION);
-        opMode.sleep(1000);
-        opMode.idle();
-
-        //move arm back to start
-        while (arm.getCurrentPosition() > ARM_START_POSITION && opMode.opModeIsActive()) {
-            if (arm.getCurrentPosition() > 650) {
-                setVelocity(arm, -0.4);
-            } else {
-                arm.setZeroPowerBehavior(FLOAT);
-                arm.setPower(0);
+                setVelocity(arm, 0.2);
             }
             opMode.telemetry.addLine("arm: " + arm.getCurrentPosition());
             opMode.telemetry.update();
         }
         arm.setZeroPowerBehavior(BRAKE);
         setVelocity(arm, 0);
+
+        //fully drop cargo
+        dropCargo(opMode);
+        resetDropper(opMode);
+
+        //move arm back to start
+        moveArmBackToStart(opMode);
     }
 
     public static void depositCargoOnBotLevel(LinearOpMode opMode) {
-        //reset encoder value
-        arm.setMode(STOP_AND_RESET_ENCODER);
-        linearSlide.setMode(STOP_AND_RESET_ENCODER);
-
         //rotate arm to middle
         while (arm.getCurrentPosition() < COUNTS_FOR_BOT_MID && opMode.opModeIsActive()) {
             setVelocity(arm, 0.25);
@@ -193,9 +150,7 @@ public class OuttakeFunctions {
         setVelocity(arm, 0);
 
         //close servo on cargo
-        dropper.setPosition(DROPPER_SECURE_POSITION);
-        opMode.sleep(1000);
-        opMode.idle();
+        secureCargo(opMode);
 
         //rotate arm to position
         while (arm.getCurrentPosition() < COUNTS_FOR_BOT_LEVEL && opMode.opModeIsActive()) {
@@ -212,9 +167,7 @@ public class OuttakeFunctions {
         setVelocity(arm, 0);
 
         //fully drop cargo
-        dropper.setPosition(Constants.DROPPER_CLOSED_POSITION);
-        opMode.sleep(1000);
-        opMode.idle();
+        dropCargo(opMode);
 
         //move arm back to mid
         while (arm.getCurrentPosition() > COUNTS_FOR_BOT_MID && opMode.opModeIsActive()) {
@@ -226,11 +179,13 @@ public class OuttakeFunctions {
         setVelocity(arm, 0);
 
         //move dropper back to open position
-        dropper.setPosition(Constants.DROPPER_OPEN_POSITION);
-        opMode.sleep(1000);
-        opMode.idle();
+        resetDropper(opMode);
 
         //move arm back to start
+        moveArmBackToStart(opMode);
+    }
+
+    private static void moveArmBackToStart(LinearOpMode opMode) {
         while (arm.getCurrentPosition() > ARM_START_POSITION && opMode.opModeIsActive()) {
             if (arm.getCurrentPosition() > 650) {
                 setVelocity(arm, -0.4);
@@ -246,7 +201,7 @@ public class OuttakeFunctions {
     }
 
     public static void lowerLift(LinearOpMode opMode) {
-        //Move linear slide back down®
+        //Move linear slide back down
         double currentPosition = linearSlide.getCurrentPosition();
         while (opMode.opModeIsActive() && currentPosition < -120) {
             setVelocity(linearSlide, 0.5);
@@ -256,7 +211,6 @@ public class OuttakeFunctions {
     }
 
     public static void raiseLiftPartially(LinearOpMode opMode) {
-        linearSlide.setMode(STOP_AND_RESET_ENCODER);
         //move linear slide up
         double currentPosition = linearSlide.getCurrentPosition();
         while (opMode.opModeIsActive() && currentPosition > -1670 / (2.0)) {
@@ -267,5 +221,26 @@ public class OuttakeFunctions {
             currentPosition = linearSlide.getCurrentPosition();
         }
         setVelocity(linearSlide, 0);
+    }
+
+    public static void resetDropper(LinearOpMode opMode) {
+        dropper.setDirection(FORWARD);
+        dropper.setPosition(DROPPER_FIT_POSITION);
+        opMode.sleep(1000);
+        opMode.idle();
+    }
+
+    public static void dropCargo(LinearOpMode opMode) {
+        dropper.setDirection(REVERSE);
+        dropper.setPosition(DROPPER_CLOSED_POSITION);
+        opMode.sleep(500);
+        opMode.idle();
+    }
+
+    public static void secureCargo(LinearOpMode opMode) {
+        dropper.setDirection(REVERSE);
+        dropper.setPosition(DROPPER_SECURE_POSITION);
+        opMode.sleep(500);
+        opMode.idle();
     }
 }

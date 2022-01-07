@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode.FreightFrenzy.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -29,6 +30,7 @@ import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.OuttakeFuncti
     6 pts - completely in warehouse
     15 pts - "capping"
     */
+///*
 @Autonomous
 public class FinalAutoBlueCarousel extends LinearOpMode {
     @Override
@@ -37,11 +39,39 @@ public class FinalAutoBlueCarousel extends LinearOpMode {
         waitForStart();
         phoneCam.closeCameraDevice();
 
+
+        moveForward(16, 0.3, this);
+        turnCW(-123);
         spinCarousel();
-        moveForward(3, 0.3, this);
-        turnCCWBR(96, this);
+        telemetry.clearAll();
+        telemetry.addLine("currentPos: " + BL.getCurrentPosition());
+        telemetry.update();
+        moveForward(15, 0.3, this);
         stopSpinningCarousel(3500, this);
-        //turnAfterTurningCarousel(123);
+
+
+    }
+
+    private void turnCW(double turnAngle) {
+        double currentAngle = getAngle();
+        BR.setDirection(REVERSE);
+        BL.setDirection(REVERSE);
+
+        while (currentAngle > turnAngle && opModeIsActive()) {
+            setVelocity(BR, 0.3);
+            setVelocity(BL, 0.3);
+
+            telemetry.addLine("angle: " + currentAngle);
+            telemetry.update();
+            currentAngle = getAngle();
+        }
+        BR.setPower(0);
+        BL.setPower(0);
+        sleep(1000);
+    }
+
+    private void turnAfterTurningCarousel(double turnAngle) {
+        BL.setDirection(FORWARD);
 
         if (getShippingElementPosition() == RIGHT) {
             moveBackward(32, 0.3, this);
