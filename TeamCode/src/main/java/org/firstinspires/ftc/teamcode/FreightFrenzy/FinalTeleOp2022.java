@@ -70,11 +70,11 @@ public class FinalTeleOp2022 extends LinearOpMode {
 
     private void controlIntake() {
         if (gamepad2.right_bumper) {
-            setVelocity(intake, 1);
+            setVelocity(intake, 0.8);
         } else if (gamepad2.left_bumper) {
             setVelocity(intake, -0.8);
         } else {
-            if (Math.abs(intake.getCurrentPosition()) % 145 < 21) {
+            if (Math.abs(intake.getCurrentPosition()) % 145 < 42) {
                 setVelocity(intake, 0);
             } else {
                 setVelocity(intake, 0.1);

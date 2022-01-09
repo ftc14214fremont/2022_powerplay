@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 import static com.qualcomm.robotcore.hardware.Servo.Direction.FORWARD;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.getShippingElementPosition;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.Constants.*;
@@ -15,6 +17,37 @@ import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.MotorFunction
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.NvyusRobotHardware.*;
 
 public class OuttakeFunctions {
+
+    public static void turnCW(double turnAngle, boolean emergencyStop, LinearOpMode opMode) {
+        ElapsedTime elapsedTime = new ElapsedTime();
+        double currentAngle = getAngle();
+        BR.setDirection(REVERSE);
+        BL.setDirection(REVERSE);
+
+        elapsedTime.reset();
+        if (emergencyStop) {
+            while (currentAngle > turnAngle && opMode.opModeIsActive() && elapsedTime.milliseconds() < 2000) {
+                setVelocity(BR, 0.3);
+                setVelocity(BL, 0.3);
+
+                opMode.telemetry.addLine("angle: " + currentAngle);
+                opMode.telemetry.update();
+                currentAngle = getAngle();
+            }
+        } else {
+            while (currentAngle > turnAngle && opMode.opModeIsActive()) {
+                setVelocity(BR, 0.3);
+                setVelocity(BL, 0.3);
+
+                opMode.telemetry.addLine("angle: " + currentAngle);
+                opMode.telemetry.update();
+                currentAngle = getAngle();
+            }
+        }
+        BR.setPower(0);
+        BL.setPower(0);
+        opMode.sleep(1000);
+    }
 
     public static void spinCarousel() {
         carousel.setPower(0.9);

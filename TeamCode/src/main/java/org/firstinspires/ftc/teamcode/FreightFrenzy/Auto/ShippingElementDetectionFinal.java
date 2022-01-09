@@ -255,9 +255,9 @@ public class ShippingElementDetectionFinal extends LinearOpMode {
              * Now that we found the max, we actually need to go and
              * figure out which sample region that value was from
              */
-            if (max == avg1) // Was it from region 1?
+            if (max == avg3) // Was it from region 1?
             {
-                position = SkystonePosition.RIGHT; // Record our analysis
+                position = SkystonePosition.LEFT; // Record our analysis
 
                 /*
                  * Draw a solid rectangle on top of the chosen region.
@@ -283,9 +283,9 @@ public class ShippingElementDetectionFinal extends LinearOpMode {
                         region2_pointB, // Second point which defines the rectangle
                         GREEN, // The color the rectangle is drawn in
                         -1); // Negative thickness means solid fill
-            } else if (max == avg3) // Was it from region 3?
+            } else if (max == avg1) // Was it from region 3?
             {
-                position = SkystonePosition.LEFT; // Record our analysis
+                position = SkystonePosition.RIGHT; // Record our analysis
 
                 /*
                  * Draw a solid rectangle on top of the chosen region.
