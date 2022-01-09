@@ -7,7 +7,6 @@ import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENC
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 import static com.qualcomm.robotcore.hardware.Servo.Direction.FORWARD;
-import static com.qualcomm.robotcore.hardware.Servo.Direction.REVERSE;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.getShippingElementPosition;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.Constants.*;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.ImuFunctions.getAngle;
@@ -133,18 +132,30 @@ public class OuttakeFunctions {
 
         //fully drop cargo
         dropCargo(opMode);
-        resetDropper(opMode);
 
         //move arm back to start
         moveArmBackToStart(opMode);
+
+        //reset dropper
+        resetDropper(opMode);
+
+        //move lift back down
+        lowerLift(opMode);
     }
 
     public static void depositCargoOnBotLevel(LinearOpMode opMode) {
-        //rotate arm to middle
-        while (arm.getCurrentPosition() < COUNTS_FOR_BOT_MID && opMode.opModeIsActive()) {
-            setVelocity(arm, 0.25);
-            opMode.telemetry.addLine("arm: " + arm.getCurrentPosition());
-            opMode.telemetry.update();
+        //rotate arm to position and secure cargo whilst doing so
+        while (arm.getCurrentPosition() < COUNTS_FOR_BOT_LEVEL && opMode.opModeIsActive()) {
+            dropper.setDirection(FORWARD);
+            dropper.setPosition(DROPPER_SECURE_POSITION);
+            opMode.sleep(0);
+            opMode.idle();
+            if (arm.getCurrentPosition() < COUNTS_FOR_BOT_LEVEL / 2) {
+                setVelocity(arm, 0.2);
+            } else {
+
+                setVelocity(arm, 0.1);
+            }
         }
         arm.setZeroPowerBehavior(BRAKE);
         setVelocity(arm, 0);
@@ -231,16 +242,16 @@ public class OuttakeFunctions {
     }
 
     public static void dropCargo(LinearOpMode opMode) {
-        dropper.setDirection(REVERSE);
+        dropper.setDirection(FORWARD);
         dropper.setPosition(DROPPER_CLOSED_POSITION);
         opMode.sleep(500);
         opMode.idle();
     }
 
     public static void secureCargo(LinearOpMode opMode) {
-        dropper.setDirection(REVERSE);
+        dropper.setDirection(FORWARD);
         dropper.setPosition(DROPPER_SECURE_POSITION);
-        opMode.sleep(500);
+        opMode.sleep(1000);
         opMode.idle();
     }
 }

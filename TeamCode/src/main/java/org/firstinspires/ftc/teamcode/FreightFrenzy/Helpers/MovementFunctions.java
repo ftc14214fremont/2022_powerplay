@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
@@ -11,6 +12,26 @@ import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.MotorFunction
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.NvyusRobotHardware.*;
 
 public class MovementFunctions {
+    public static void turnCCWBL(double turnAngle, LinearOpMode opMode) {
+        double currentAngle = getAngle();
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        BR.setPower(0);
+        while (currentAngle < turnAngle && opMode.opModeIsActive()) {
+            if (currentAngle < turnAngle * 0.6) {
+                setVelocity(BL, 0.4);
+            } else {
+                setVelocity(BL, 0.2);
+            }
+            opMode.telemetry.addLine("angle: " + currentAngle);
+            opMode.telemetry.update();
+            currentAngle = getAngle();
+        }
+
+        BL.setPower(0);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        opMode.sleep(1000);
+    }
+
     public static void turnCCWBR(double turnAngle, LinearOpMode opMode) {
         double currentAngle = getAngle();
 

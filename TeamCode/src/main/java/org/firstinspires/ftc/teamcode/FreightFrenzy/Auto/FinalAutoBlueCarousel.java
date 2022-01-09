@@ -3,14 +3,19 @@ package org.firstinspires.ftc.teamcode.FreightFrenzy.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.SkystonePosition.*;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.getShippingElementPosition;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.Constants.DROPPER_FIT_POSITION;
+import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.ImuFunctions.getAngle;
+import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.MotorFunctions.setVelocity;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.MovementFunctions.moveBackward;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.MovementFunctions.moveForward;
-import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.NvyusRobotHardware.dropper;
-import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.NvyusRobotHardware.phoneCam;
+import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.NvyusRobotHardware.*;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.OuttakeFunctions.*;
 
 //plan
@@ -33,37 +38,94 @@ import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.OuttakeFuncti
 ///*
 @Autonomous
 public class FinalAutoBlueCarousel extends LinearOpMode {
+    public static void turnCCWBL(double turnAngle, LinearOpMode opMode) {
+        double currentAngle = getAngle();
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        BR.setPower(0);
+        while (currentAngle < turnAngle && opMode.opModeIsActive()) {
+            if (currentAngle < turnAngle * 0.6) {
+                setVelocity(BL, 0.4);
+            } else {
+                setVelocity(BL, 0.2);
+            }
+            opMode.telemetry.addLine("angle: " + currentAngle);
+            opMode.telemetry.update();
+            currentAngle = getAngle();
+        }
+
+        BL.setPower(0);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        opMode.sleep(1000);
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         initializationStuff(this);
         waitForStart();
         phoneCam.closeCameraDevice();
 
-
-        moveForward(16, 0.3, this);
-        turnCW(-123);
+        moveForward(17, 0.3, this);
+        turnCW(-120, false);
         spinCarousel();
         telemetry.clearAll();
         telemetry.addLine("currentPos: " + BL.getCurrentPosition());
         telemetry.update();
         moveForward(15, 0.3, this);
+        turnCW(-140, true);
         stopSpinningCarousel(3500, this);
+        turnCCWBL(-128, this);
 
+        if (getShippingElementPosition() == RIGHT) {
+            moveBackward(32, 0.3, this);
+            depositCargoOnTopLevel(this);
+            moveForward(20, 0.3, this);
+            turnCCWBR(-100, this);
+            moveBackward(85, 0.5, this);
+            //lowerLift(this);
+        } else if (getShippingElementPosition() == CENTER) {
+            moveBackward(24, 0.3, this);
+            depositCargoOnMidLevel(this);
+            moveForward(9, 0.3, this);
+            turnCCWBR(-100, this);
+            moveBackward(85, 0.5, this);
+            lowerLift(this);
+        } else if (getShippingElementPosition() == LEFT) {
+            moveBackward(22, 0.3, this);
+            depositCargoOnBotLevel(this);
+            moveForward(8, 0.3, this);
+            turnCCWBR(-100, this);
+            raiseLiftPartially(this);
+            moveBackward(85, 0.5, this);
+            lowerLift(this);
+        }
 
     }
 
-    private void turnCW(double turnAngle) {
+    private void turnCW(double turnAngle, boolean emergencyStop) {
+        ElapsedTime elapsedTime = new ElapsedTime();
         double currentAngle = getAngle();
         BR.setDirection(REVERSE);
         BL.setDirection(REVERSE);
 
-        while (currentAngle > turnAngle && opModeIsActive()) {
-            setVelocity(BR, 0.3);
-            setVelocity(BL, 0.3);
+        elapsedTime.reset();
+        if (emergencyStop) {
+            while (currentAngle > turnAngle && opModeIsActive() && elapsedTime.milliseconds() < 2000) {
+                setVelocity(BR, 0.3);
+                setVelocity(BL, 0.3);
 
-            telemetry.addLine("angle: " + currentAngle);
-            telemetry.update();
-            currentAngle = getAngle();
+                telemetry.addLine("angle: " + currentAngle);
+                telemetry.update();
+                currentAngle = getAngle();
+            }
+        } else {
+            while (currentAngle > turnAngle && opModeIsActive()) {
+                setVelocity(BR, 0.3);
+                setVelocity(BL, 0.3);
+
+                telemetry.addLine("angle: " + currentAngle);
+                telemetry.update();
+                currentAngle = getAngle();
+            }
         }
         BR.setPower(0);
         BL.setPower(0);

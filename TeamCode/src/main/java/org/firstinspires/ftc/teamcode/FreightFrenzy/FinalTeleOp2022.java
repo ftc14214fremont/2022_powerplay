@@ -72,7 +72,7 @@ public class FinalTeleOp2022 extends LinearOpMode {
         if (gamepad2.right_bumper) {
             setVelocity(intake, 1);
         } else if (gamepad2.left_bumper) {
-            setVelocity(intake, -1);
+            setVelocity(intake, -0.8);
         } else {
             if (Math.abs(intake.getCurrentPosition()) % 145 < 21) {
                 setVelocity(intake, 0);
@@ -285,6 +285,5 @@ public class FinalTeleOp2022 extends LinearOpMode {
         ROTATE_ARM_TO_POSITION,
         RETURN_ARM_OR_DEPOSIT,
         DEPOSIT_CARGO,
-        RESET_DROPPER
     }
 }
