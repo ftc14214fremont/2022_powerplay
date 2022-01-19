@@ -15,7 +15,6 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.List;
 
-import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
@@ -65,7 +64,7 @@ public class NvyusRobotHardware {
         BR.setZeroPowerBehavior(BRAKE);
 
         linearSlide.setZeroPowerBehavior(BRAKE);
-        intake.setZeroPowerBehavior(BRAKE);
+        intake.setZeroPowerBehavior(FLOAT);
         arm.setZeroPowerBehavior(BRAKE);
         carousel.setZeroPowerBehavior(FLOAT);
 
@@ -77,11 +76,6 @@ public class NvyusRobotHardware {
 
         linearSlide.setDirection(FORWARD);
         intake.setDirection(FORWARD);
-
-        //reset encoders
-        intake.setMode(STOP_AND_RESET_ENCODER);
-        linearSlide.setMode(STOP_AND_RESET_ENCODER);
-        arm.setMode(STOP_AND_RESET_ENCODER);
 
         //initialize IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

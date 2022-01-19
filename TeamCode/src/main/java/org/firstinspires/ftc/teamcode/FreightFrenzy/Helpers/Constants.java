@@ -5,8 +5,8 @@ public class Constants {
     public static final int COUNTS_FOR_INITIAL_ROTATION_AUTO = 820;
     public static final double COUNTS_PER_INCH_TANK_DRIVE = 38.8588684844;
     public static final int COUNTS_FOR_TOP_LEVEL = 1100;
-    public static final int COUNTS_FOR_MID_LEVEL = 1600;
-    public static final int COUNTS_FOR_BOT_LEVEL = 1550;
+    public static final int COUNTS_FOR_MID_LEVEL = 1500;
+    public static final int COUNTS_FOR_BOT_LEVEL = 1250;
     public static final int COUNTS_FOR_BOT_MID = 860;
     public static final int ARM_START_POSITION = 120;
 

@@ -74,11 +74,12 @@ public class FinalTeleOp2022 extends LinearOpMode {
         } else if (gamepad2.left_bumper) {
             setVelocity(intake, -0.8);
         } else {
-            if (Math.abs(intake.getCurrentPosition()) % 145 < 42) {
-                setVelocity(intake, 0);
-            } else {
-                setVelocity(intake, 0.1);
-            }
+//            if (Math.abs(intake.getCurrentPosition()) % 145 < 42) {
+//                setVelocity(intake, 0);
+//            } else {
+//                setVelocity(intake, 0.1);
+//            }
+            setVelocity(intake, 0);
         }
     }
 
@@ -135,21 +136,15 @@ public class FinalTeleOp2022 extends LinearOpMode {
                     break;
                 case RAISE_LIFT:
                     //stop lift at the top
+                    if (currentLinearSlidePosition < -600) {
+                        dropper.setPosition(DROPPER_SECURE_POSITION);
+                    }
                     if (currentLinearSlidePosition <= -1670) {
                         setVelocity(linearSlide, 0);
 
                         //move to next state
-                        topDepositState = SECURE_CARGO;
+                        topDepositState = GO_BACK_DOWN_OR_DEPOSIT;
                     }
-                    break;
-                case SECURE_CARGO:
-                    //secure cargo
-                    dropper.setPosition(DROPPER_SECURE_POSITION);
-                    sleep(0);
-                    idle();
-
-                    //move to next state
-                    topDepositState = GO_BACK_DOWN_OR_DEPOSIT;
                     break;
                 case GO_BACK_DOWN_OR_DEPOSIT:
                     //can choose to either go back down or deposit
@@ -280,7 +275,6 @@ public class FinalTeleOp2022 extends LinearOpMode {
     public enum TOP_DEPOSIT_STATES {
         TOP_DEPOSIT_START,
         RAISE_LIFT,
-        SECURE_CARGO,
         GO_BACK_DOWN_OR_DEPOSIT,
         ROTATE_ARM_TO_POSITION,
         RETURN_ARM_OR_DEPOSIT,

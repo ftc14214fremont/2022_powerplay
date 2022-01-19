@@ -63,7 +63,7 @@ public class MovementFunctions {
         BL.setDirection(REVERSE);
         BR.setDirection(FORWARD);
 
-        int position = BR.getCurrentPosition();
+        int position = BL.getCurrentPosition();
 
         while (position < (inches * COUNTS_PER_INCH_TANK_DRIVE) && opMode.opModeIsActive()) {
             setVelocity(BL, speed);
@@ -95,7 +95,7 @@ public class MovementFunctions {
         BL.setDirection(FORWARD);
         BR.setDirection(REVERSE);
 
-        int position = BR.getCurrentPosition();
+        int position = BL.getCurrentPosition();
 
         while (position < (inches * COUNTS_PER_INCH_TANK_DRIVE) && opMode.opModeIsActive()) {
             setVelocity(BL, speed);
