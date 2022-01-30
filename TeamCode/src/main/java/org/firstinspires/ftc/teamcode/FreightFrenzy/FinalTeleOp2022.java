@@ -10,6 +10,8 @@ import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
 import static com.qualcomm.robotcore.hardware.Servo.Direction.FORWARD;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.FinalTeleOp2022.BOTTOM_DEPOSIT_STATES.BOTTOM_DEPOSIT_START;
+import static org.firstinspires.ftc.teamcode.FreightFrenzy.FinalTeleOp2022.INTAKE_STATES.INTAKE_SPIN;
+import static org.firstinspires.ftc.teamcode.FreightFrenzy.FinalTeleOp2022.INTAKE_STATES.INTAKE_START;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.FinalTeleOp2022.TOP_DEPOSIT_STATES.*;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.Constants.*;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Helpers.MotorFunctions.setVelocity;
@@ -23,6 +25,7 @@ public class FinalTeleOp2022 extends LinearOpMode {
     Button depositCargo = new Button();
     BOTTOM_DEPOSIT_STATES bottomDepositState = BOTTOM_DEPOSIT_START;
     TOP_DEPOSIT_STATES topDepositState = TOP_DEPOSIT_START;
+    INTAKE_STATES intakeState = INTAKE_START;
     ElapsedTime elapsedTime = new ElapsedTime();
     boolean slowMode = false;
     int levelToDeposit = 2;
@@ -69,19 +72,42 @@ public class FinalTeleOp2022 extends LinearOpMode {
     }
 
     private void controlIntake() {
-        if (gamepad2.right_bumper) {
-            setVelocity(intake, 0.8);
-        } else if (gamepad2.left_bumper) {
-            setVelocity(intake, -0.8);
-        } else {
+        switch (intakeState) {
+            case INTAKE_START:
+                if (gamepad2.right_bumper) {
+                    setVelocity(intake, 0.7);
+                    elapsedTime.reset();
+                    intakeState = INTAKE_SPIN;
+                } else if (gamepad2.left_bumper) {
+                    setVelocity(intake, -0.7);
+                    elapsedTime.reset();
+                    intakeState = INTAKE_SPIN;
+                } else {
+                    setVelocity(intake, 0);
+                }
+                break;
+            case INTAKE_SPIN:
+                if (elapsedTime.milliseconds() >= 200) {
+                    setVelocity(intake, 0);
+
+                    intakeState = INTAKE_START;
+                }
+                break;
+        }
+    }
+
+//    private void controlIntake() {
+//        if (gamepad2.right_bumper) {
+//            setVelocity(intake, -0.8);
+//        } else {
 //            if (Math.abs(intake.getCurrentPosition()) % 145 < 42) {
 //                setVelocity(intake, 0);
 //            } else {
 //                setVelocity(intake, 0.1);
 //            }
-            setVelocity(intake, 0);
-        }
-    }
+//            setVelocity(intake, 0);
+//        }
+//    }
 
     private void controlDrivetrain() {
         double leftPower;
@@ -182,7 +208,7 @@ public class FinalTeleOp2022 extends LinearOpMode {
                     break;
                 case ROTATE_ARM_TO_POSITION:
                     //stop the arm once it reaches position
-                    if (currentArmPosition > (COUNTS_FOR_TOP_LEVEL - 150)) {
+                    if (currentArmPosition > (COUNTS_FOR_TOP_LEVEL - 100)) {
                         arm.setZeroPowerBehavior(BRAKE);
                         setVelocity(arm, 0);
 
@@ -279,5 +305,11 @@ public class FinalTeleOp2022 extends LinearOpMode {
         ROTATE_ARM_TO_POSITION,
         RETURN_ARM_OR_DEPOSIT,
         DEPOSIT_CARGO,
+
+    }
+
+    public enum INTAKE_STATES {
+        INTAKE_START,
+        INTAKE_SPIN,
     }
 }

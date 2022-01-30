@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.FLOAT;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.FORWARD;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.SkystonePosition.*;
 import static org.firstinspires.ftc.teamcode.FreightFrenzy.Auto.ShippingElementDetectionFinal.SkystoneDeterminationPipeline.getShippingElementPosition;
@@ -44,33 +45,33 @@ public class FinalAutoRedCarousel extends LinearOpMode {
 
         spinCarousel();
         moveForward(3, 0.3, this);
-        turnCCWBR(96);
-        stopSpinningCarousel(3500, this);
-        turnAfterTurningCarousel(123);
+        turnCCWBR(91);
+        stopSpinningCarousel(3000, this);
+        turnCCW(115);
 
         if (getShippingElementPosition() == RIGHT) {
-            moveBackward(32, 0.3, this);
+            moveBackward(39, 0.3, this);
             depositCargoOnTopLevel(this);
             moveForward(18, 0.3, this);
             turnCW(94);
-            moveBackward(85, 0.5, this);
+            moveBackward(90, 0.5, this);
             lowerLift(this);
         } else if (getShippingElementPosition() == CENTER) {
-            moveBackward(21, 0.3, this);
+            moveBackward(25.5, 0.3, this);
             depositCargoOnMidLevel(this);
-            moveForward(7, 0.3, this);
+            moveForward(5, 0.3, this);
             turnCW(94);
-            moveBackward(85, 0.5, this);
+            moveBackward(90, 0.5, this);
             lowerLift(this);
         } else if (getShippingElementPosition() == LEFT) {
             moveBackward(20, 0.3);
             depositCargoOnBotLevel();
             moveForward(6, 0.3);
             turnCW(94);
-            raiseLiftPartially(this);
-            moveBackward(85, 0.5, this);
-            lowerLift(this);
+            moveBackward(90, 0.5, this);
+
         }
+        turnCW(-180);
     }
 
     private void initializationStuff() {
@@ -101,7 +102,7 @@ public class FinalAutoRedCarousel extends LinearOpMode {
         while (currentAngle < turnAngle && opModeIsActive()) {
             BL.setPower(0);
             if (currentAngle < turnAngle * 0.6) {
-                setVelocity(BR, 0.4);
+                setVelocity(BR, 0.2);
             } else {
                 setVelocity(BR, 0.2);
             }
@@ -131,12 +132,14 @@ public class FinalAutoRedCarousel extends LinearOpMode {
         sleep(1000);
     }
 
-    private void turnAfterTurningCarousel(double turnAngle) {
+    private void turnCCW(double turnAngle) {
         double currentAngle = getAngle();
+        BR.setDirection(FORWARD);
+        BL.setDirection(FORWARD);
 
         while (currentAngle < turnAngle && opModeIsActive()) {
-            BR.setPower(0);
-            setVelocity(BL, -0.6);
+            setVelocity(BR, 0.2);
+            setVelocity(BL, 0.2);
             telemetry.addLine("angle: " + currentAngle);
             telemetry.update();
             currentAngle = getAngle();

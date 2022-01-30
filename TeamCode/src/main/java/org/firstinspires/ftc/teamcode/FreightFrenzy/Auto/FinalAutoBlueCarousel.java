@@ -98,7 +98,7 @@ public class FinalAutoBlueCarousel extends LinearOpMode {
             moveBackward(85, 0.5, this);
             lowerLift(this);
         }
-
+        turnCW(-90, false);
     }
 
     private void turnCW(double turnAngle, boolean emergencyStop) {

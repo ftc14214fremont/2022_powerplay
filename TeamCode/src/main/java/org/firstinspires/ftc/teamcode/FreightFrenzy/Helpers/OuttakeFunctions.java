@@ -173,7 +173,7 @@ public class OuttakeFunctions {
         resetDropper(opMode);
 
         //move lift back down
-        lowerLift(opMode);
+//        lowerLift(opMode);
     }
 
     public static void depositCargoOnBotLevel(LinearOpMode opMode) {
