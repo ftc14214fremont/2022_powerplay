@@ -1,1 +1,6 @@
-# when the 14214 teamcode is sus
+
+Refer to 
+https://github.com/FIRST-Tech-Challenge/FtcRobotController
+
+For documentation and tutorials.
+
